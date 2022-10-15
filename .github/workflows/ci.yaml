@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  code-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Read Node version
+        run: echo "::set-output name=NVMRC::$(cat .nvmrc)"
+        id: nvm
+      - name: Setup Node ${{ steps.nvm.outputs.NVMRC }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.nvm.outputs.NVMRC }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm lint:check
+      - run: npm test
+      - run: npm run build
