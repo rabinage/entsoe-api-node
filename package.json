@@ -1,8 +1,17 @@
 {
-  "name": "node-module-swc-cjs",
+  "name": "entsoe-api-node",
   "version": "0.1.0",
-  "description": "A starter for writing high compatible and production ready Nodejs modules using the latest ECMAScript syntax.",
-  "author": "Robin Hansson <git@rabinage>",
+  "description": "Unofficial API wrapper for the ENTSO-E Transparency Platform API (https://transparency.entsoe.eu)",
+  "author": "Robin Hansson <holla@rabinage.dev> (https://github.com/rabinage)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rabinage/entsoe-api-node.git"
+  },
+  "keywords": [
+    "nodejs",
+    "api",
+    "entso-e"
+  ],
   "license": "MIT",
   "type": "commonjs",
   "main": "./dist",
@@ -21,7 +30,7 @@
     "precommit": "npm run lint:check"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "nodemonConfig": {
     "execMap": {
@@ -46,5 +55,9 @@
     "jest": "29.2.0",
     "nodemon": "2.0.20",
     "prettier": "2.7.1"
+  },
+  "dependencies": {
+    "node-fetch": "2.6.7",
+    "xml2js": "0.4.23"
   }
 }
