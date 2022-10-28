@@ -23,21 +23,17 @@ test("[REST] Error on no API token", async () => {
 });
 
 test("[REST] dayAheadPrices using default start date", async () => {
+  const localDate = new Date(new Date().setHours(0, 0, 0, 0));
+
   const res = await client.dayAheadPrices({ biddingZone });
 
-  const localDate = new Date();
-
   expect(res.period.timeInterval.start).toBe(
-    new Date(localDate.setHours(0, 0, 0, 0))
-      .toISOString()
-      .replace(/:00.000Z/, "Z")
+    new Date(localDate).toISOString().replace(/:00.000Z/, "Z")
   );
   expect(res.period.timeInterval.end).toBe(
-    new Date(localDate.setHours(24, 0, 0, 0))
-      .toISOString()
-      .replace(/:00.000Z/, "Z")
+    new Date(localDate.setHours(48)).toISOString().replace(/:00.000Z/, "Z")
   );
-  expect(res.timeSeries.length).toBe(1);
+  expect(res.timeSeries.length).toBe(2);
   expect(res.timeSeries[0].period.point.length).toBe(24);
 });
 
@@ -52,7 +48,7 @@ test("[REST] dayAheadPrices with start date", async () => {
   expect(res.period.timeInterval.start).toBe("2022-08-10T22:00Z");
   expect(res.period.timeInterval.end).toBe(
     new Date(
-      new Date(new Date(localeDateString).setHours(0, 0, 0, 0)).setHours(24)
+      new Date(new Date(localeDateString).setHours(0, 0, 0, 0)).setHours(48)
     )
       .toISOString()
       .replace(/:00.000Z/, "Z")

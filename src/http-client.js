@@ -90,7 +90,7 @@ const dayAheadPrices = (
         : new Date(new Date().setHours(0, 0, 0, 0));
       const ed = endDate
         ? new Date(new Date(endDate).setHours(0, 0, 0, 0))
-        : new Date(new Date(sd).setHours(sd.getHours() + 24));
+        : new Date(new Date(sd).setHours(sd.getHours() + 48));
       const timeInterval = `${sd.toISOString()}/${ed.toISOString()}`;
 
       resolve(

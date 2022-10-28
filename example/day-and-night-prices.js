@@ -12,7 +12,6 @@ const client = Entsoe({ apiToken: process.env.API_TOKEN });
 client
   .dayAheadPrices({
     biddingZone: BiddingZones.SW4,
-    startDate: "2022-08-12:00:00",
   })
   .then((res) => {
     res.timeSeries.forEach((ts) => {
