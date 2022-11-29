@@ -85,20 +85,20 @@ const dayAheadPrices = (
         throw new Error("'biddingZone' is required");
       }
 
-      const sd = startDate
-        ? new Date(new Date(startDate).setHours(0, 0, 0, 0))
-        : new Date(new Date().setHours(0, 0, 0, 0));
-      const ed = endDate
-        ? new Date(new Date(endDate).setHours(0, 0, 0, 0))
-        : new Date(new Date(sd).setHours(sd.getHours() + 48));
-      const timeInterval = `${sd.toISOString()}/${ed.toISOString()}`;
+      if (!startDate) {
+        throw new Error("'startDate' is required");
+      }
+
+      if (!endDate) {
+        throw new Error("'endDate' is required");
+      }
 
       resolve(
         req({
           params: {
             in_Domain: biddingZone,
             out_Domain: biddingZone,
-            timeInterval,
+            timeInterval: `${startDate}/${endDate}`,
             documentType: DocumentTypes.PRICE_DOCUMENT,
           },
           transformResponse,
