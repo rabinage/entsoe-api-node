@@ -86,11 +86,11 @@ const dayAheadPrices = (
       }
 
       const sd = startDate
-        ? new Date(new Date(startDate).setHours(0, 0, 0, 0))
-        : new Date(new Date().setHours(0, 0, 0, 0));
+        ? new Date(new Date(startDate).setMinutes(0, 0, 0))
+        : new Date(new Date().setMinutes(0, 0, 0));
       const ed = endDate
-        ? new Date(new Date(endDate).setHours(0, 0, 0, 0))
-        : new Date(new Date(sd).setHours(sd.getHours() + 48));
+        ? new Date(new Date(endDate).setMinutes(0, 0, 0))
+        : new Date(new Date(sd).setHours(sd.getHours() + 24));
       const timeInterval = `${sd.toISOString()}/${ed.toISOString()}`;
 
       resolve(
