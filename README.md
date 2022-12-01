@@ -22,7 +22,10 @@ import Enstoe, { BiddingZones } from "entsoe-api-node";
 
 const client = Entsoe({ apiToken: "YOUR-SECURITY-TOKEN" });
 
-const result = await client.dayAheadPrices({ biddingZone: BiddingZones.SW4 });
+const result = await client.dayAheadPrices({
+  startDate: new Date().toISOString(),
+  biddingZone: BiddingZones.SW4,
+});
 ```
 
 Require using commonjs.
@@ -47,7 +50,12 @@ Time is always expressed in UTC.
 Get the published prices for given bidding zone. The result is always returned as 24 hours, starting from midnight local time of the specified bidding zone.
 
 ```js
-console.log(await client.dayAheadPrices({ biddingZone: "10Y1001A1001A47J" }));
+console.log(
+  await client.dayAheadPrices({
+    startDate: new Date().toISOString(),
+    biddingZone: "10Y1001A1001A47J",
+  })
+);
 ```
 
 | Param       | Type   | Required | Default                | Info                          |
@@ -130,7 +138,7 @@ console.log(await client.dayAheadPrices({ biddingZone: "10Y1001A1001A47J" }));
 Customize the result by passing a function to handle the XML response.
 
 ```js
-console.log(await client.dayAheadPrices({ startDate: new Date().toISOString(), biddingZone: "10Y1001A1001A47J" }, (xmlString) async => /* parse the `xmlString` and return some magic */));
+console.log(await client.dayAheadPrices({ biddingZone: "10Y1001A1001A47J" }, (xmlString) async => /* parse the `xmlString` and return some magic */));
 ```
 
 #### BiddingZones
