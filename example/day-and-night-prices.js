@@ -11,6 +11,7 @@ const client = Entsoe({ apiToken: process.env.API_TOKEN });
 
 client
   .dayAheadPrices({
+    startDate: new Date().toISOString(),
     biddingZone: BiddingZones.SW4,
   })
   .then((res) => {

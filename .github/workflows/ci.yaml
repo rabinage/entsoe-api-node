@@ -33,7 +33,7 @@ jobs:
         run: npm run test
         env:
           API_TOKEN: ${{ secrets.ENTSOE_API_TOKEN }}
-          TZ: Europe/Stockholm
+          TZ: Europe/London
 
       - name: Run build
         run: npm run build

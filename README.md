@@ -50,11 +50,11 @@ Get the published prices for given bidding zone. The result is always returned a
 console.log(await client.dayAheadPrices({ biddingZone: "10Y1001A1001A47J" }));
 ```
 
-| Param       | Type   | Required | Default                |
-| ----------- | ------ | -------- | ---------------------- |
+| Param       | Type   | Required | Default                | Info                          |
+| ----------- | ------ | -------- | ---------------------- | ----------------------------- |
 | biddingZone | String | true     |                        |
-| startDate   | String | false    | Current date           |
-| endDate     | String | false    | `startDate` + next day |
+| startDate   | String | false    | Current locale date    | ISO 8601 formated date string |
+| endDate     | String | false    | `startDate` + next day | ISO 8601 formated date string |
 
 - One year range limit applies
 - Minimum time interval between `startDate` and `endDate` is one day
@@ -130,7 +130,7 @@ console.log(await client.dayAheadPrices({ biddingZone: "10Y1001A1001A47J" }));
 Customize the result by passing a function to handle the XML response.
 
 ```js
-console.log(await client.dayAheadPrices({ biddingZone: "10Y1001A1001A47J" }, (xmlString) async => /* parse the `xmlString` and return some magic */));
+console.log(await client.dayAheadPrices({ startDate: new Date().toISOString(), biddingZone: "10Y1001A1001A47J" }, (xmlString) async => /* parse the `xmlString` and return some magic */));
 ```
 
 #### BiddingZones
