@@ -1,6 +1,6 @@
 declare module "entsoe-api-node" {
   export default function (options?: {
-    apiToken: "";
+    apiToken: string;
     testnet?: boolean;
   }): Entsoe;
 
