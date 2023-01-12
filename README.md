@@ -18,7 +18,7 @@ Entsoe API responses are formatted in XML, which is not suitable for Javascript 
 Import the module and create a new client using the security token. To get access to an security token you need to register the [Transparency Platform](https://transparency.entsoe.eu/dashboard/show) and send an email to transparency@entsoe.eu with “Restful API access” in the subject line. Indicate the email address you entered during registration in the email body. When granted access there will be an option to generate an security token under account settings.
 
 ```js
-import Enstoe, { BiddingZones } from "entsoe-api-node";
+import Entsoe, { BiddingZones } from "entsoe-api-node";
 
 const client = Entsoe({ apiToken: "YOUR-SECURITY-TOKEN" });
 
