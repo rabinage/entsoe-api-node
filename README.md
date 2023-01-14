@@ -4,10 +4,21 @@
 
 ### Why this wrapper
 
-Entsoe API responses are formatted in XML, which is not suitable for Javascript applications. This wrapper automatically converts the response into the more compatible JSON format.
+The API responses from the [ENTSO-E Transparency Platform](https://transparency.entsoe.eu) are formatted in XML, which may not be easily consumable in JavaScript applications. This wrapper automatically converts the response into the more compatible JSON format.
 
 - [ENTSO-E Transparency Platform](https://transparency.entsoe.eu/dashboard/show)
 - [Transparency Platform API spec.](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html)
+
+### Table of Contents
+
+- [Installation](#installation)
+- [Getting started](#getting-started)
+  - [Initialize](#initialize)
+  - [Code examples](#code-examples)
+- [Public REST Endpoints](#public-rest-endpoints)
+  - [dayAheadPrices](#day-ahead-prices)
+- [Miscellaneous](#miscellaneous)
+  - [BiddingZones](#bidding-zones)
 
 ### Installation
 
@@ -15,7 +26,7 @@ Entsoe API responses are formatted in XML, which is not suitable for Javascript 
 
 ### Getting started
 
-Import the module and create a new client using the security token. To get access to an security token you need to register the [Transparency Platform](https://transparency.entsoe.eu/dashboard/show) and send an email to transparency@entsoe.eu with “Restful API access” in the subject line. Indicate the email address you entered during registration in the email body. When granted access there will be an option to generate an security token under account settings.
+To use this wrapper, you must first register with the Transparency Platform and request access to the RESTful API by sending an email to transparency@entsoe.eu with 'Restful API access' in the subject line. Be sure to include the email address you used during registration in the email body. Once granted access, you can then generate a security token under the account settings.
 
 ```js
 import Entsoe, { BiddingZones } from "entsoe-api-node";
@@ -34,20 +45,32 @@ Require using commonjs.
 const Enstoe = require("entsoe-api-node").default;
 ```
 
-### Init
+#### Initialize
 
 | Param    | Type    | Required | Info                     |
 | -------- | ------- | -------- | ------------------------ |
 | apiToken | String  | true     |                          |
 | testnet  | Boolean | false    | For testing purpose only |
 
+#### Code examples
+
+The `/example` folder contains code examples on how to use the API methods. You can try out these examples by running the following command:
+
+    npm run example:dev -- example/example-file.js
+
 ### Public REST Endpoints
 
 Time is always expressed in UTC.
 
+Each method accepts an optional second parameter to customize the XML response.
+
+```js
+console.log(await client.dayAheadPrices({ biddingZone: "10Y1001A1001A47J" }, (xmlString) async => /* parse the XML and return some magic */));
+```
+
 #### dayAheadPrices
 
-Get the published prices for given bidding zone. The result is always returned as 24 hours, starting from midnight local time of the specified bidding zone.
+Get the published day-ahead prices for given bidding zone. The result always includes 24 hours of data, starting from midnight local time of the specified bidding zone.
 
 ```js
 console.log(
@@ -133,13 +156,7 @@ console.log(
 
 </details>
 
-#### ResponseTransformers
-
-Customize the result by passing a function to handle the XML response.
-
-```js
-console.log(await client.dayAheadPrices({ biddingZone: "10Y1001A1001A47J" }, (xmlString) async => /* parse the `xmlString` and return some magic */));
-```
+### Miscellaneous
 
 #### BiddingZones
 
@@ -151,4 +168,4 @@ import { BiddingZones } from "entsoe-api-node";
 console.log(await client.dayAheadPrices({ biddingZone: BiddingZones.SW4 }));
 ```
 
-##### This project is based on the [node-module-swc-cjs](https://github.com/rabinage/starters/tree/main/node-module-swc-cjs) starter.
+##### This project is based on the [node-module-swc-cjs](https://github.com/rabinage/starters/tree/main/node-module-swc-cjs) starter. Check it out for more production ready starters!
