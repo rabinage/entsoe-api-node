@@ -30,7 +30,7 @@
     "precommit": "npm run lint:check"
   },
   "engines": {
-    "node": ">=16"
+    "node": "<=16"
   },
   "nodemonConfig": {
     "execMap": {
