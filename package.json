@@ -44,7 +44,7 @@
     "@swc/jest": "0.2.26",
     "@swc/register": "0.1.10",
     "@types/jest": "29.5.2",
-    "dotenv": "16.2.0",
+    "dotenv": "16.3.0",
     "eslint": "8.42.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-prettier": "8.8.0",
