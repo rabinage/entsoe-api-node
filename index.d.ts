@@ -93,10 +93,10 @@ declare module "entsoe-api-node" {
             {
               position: number;
               priceAmount: number;
-            }
+            },
           ];
         };
-      }
+      },
     ];
   }
 
@@ -110,7 +110,7 @@ declare module "entsoe-api-node" {
         startDate?: string;
         endDate?: string;
       },
-      transformResponse: DayAheadPriceResponseTransformer | ResponseTransformer
+      transformResponse: DayAheadPriceResponseTransformer | ResponseTransformer,
     ): Promise<DayAheadResult>;
   }
 }

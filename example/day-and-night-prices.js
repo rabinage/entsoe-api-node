@@ -22,14 +22,14 @@ client
       console.table(
         ts.period.point.map((p) => {
           const hour = `${formatHour(
-            (parseInt(p.position, 10) - 1).toString()
+            (parseInt(p.position, 10) - 1).toString(),
           )}-${formatHour(p.position === "24" ? "0" : p.position)}`;
 
           return {
             [date]: hour,
             "EUR/MWh": parseFloat(p.priceAmount, 10).toFixed(2),
           };
-        })
+        }),
       );
     });
   });

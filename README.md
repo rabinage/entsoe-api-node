@@ -77,7 +77,7 @@ console.log(
   await client.dayAheadPrices({
     startDate: new Date().toISOString(),
     biddingZone: "10Y1001A1001A47J",
-  })
+  }),
 );
 ```
 

@@ -15,7 +15,7 @@ const makeQueryString = (query) =>
     ? `?${Object.keys(query)
         .map(
           (key) =>
-            `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`
+            `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`,
         )
         .join("&")}`
     : "";
@@ -66,16 +66,16 @@ const request =
           method,
           headers,
           body: data ? JSON.stringify(data) : undefined,
-        }
+        },
       ),
-      transformResponse
+      transformResponse,
     );
   };
 
 const dayAheadPrices = (
   req,
   payload = {},
-  transformResponse = dayAheadPriceRt
+  transformResponse = dayAheadPriceRt,
 ) =>
   new Promise((resolve, reject) => {
     const { startDate, endDate, biddingZone } = payload;
@@ -102,7 +102,7 @@ const dayAheadPrices = (
             documentType: DocumentTypes.PRICE_DOCUMENT,
           },
           transformResponse,
-        })
+        }),
       );
     } catch (err) {
       reject(err);
