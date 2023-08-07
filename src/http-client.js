@@ -1,10 +1,6 @@
 import fetch from "node-fetch";
 
-import {
-  dayAheadPriceRt,
-  badRequestRt,
-  unauthRt,
-} from "./response-transformers";
+import { dayAheadPriceRT, badRequestRT, unauthRT } from "./transformers";
 import { DocumentTypes } from "./const";
 
 const BASE = "https://web-api.tp.entsoe.eu/api";
@@ -33,9 +29,9 @@ const responseHandler = async (req, transformResponse) => {
 
     error = new Error();
     if (resp.status === 401) {
-      error.message = await unauthRt(errorBody);
+      error.message = await unauthRT(errorBody);
     } else {
-      const json = await badRequestRt(errorBody);
+      const json = await badRequestRT(errorBody);
       error.message = json.message;
       error.code = json.code;
     }
@@ -75,7 +71,7 @@ const request =
 const dayAheadPrices = (
   req,
   payload = {},
-  transformResponse = dayAheadPriceRt,
+  transformResponse = dayAheadPriceRT,
 ) =>
   new Promise((resolve, reject) => {
     const { startDate, endDate, biddingZone } = payload;
