@@ -44,6 +44,7 @@ build/Release
 # Build / generate output
 dist/
 lib/
+coverage/
 
 # Dependency directories
 node_modules/

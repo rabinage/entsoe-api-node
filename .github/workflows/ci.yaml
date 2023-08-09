@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: ["**"]
 
 jobs:
   code-check:
@@ -30,10 +30,7 @@ jobs:
         run: npm run lint:check
 
       - name: Run tests
-        run: npm run test
-        env:
-          API_TOKEN: ${{ secrets.ENTSOE_API_TOKEN }}
-          TZ: Europe/London
+        run: npm run test --verbose
 
       - name: Run build
         run: npm run build
