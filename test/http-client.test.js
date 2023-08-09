@@ -103,6 +103,15 @@ describe("API client Tests", () => {
     expect(transformedData).toEqual(expectedResponse);
   });
 
+  test("dayAheadPrices should throw an error when 'startDate' is missing", async () => {
+    await expect(
+      client.dayAheadPrices({
+        endDate,
+        biddingZone,
+      }),
+    ).rejects.toThrow("'startDate' is required");
+  });
+
   test("dayAheadPrices should throw an error when 'biddingZone' is missing", async () => {
     await expect(
       client.dayAheadPrices({

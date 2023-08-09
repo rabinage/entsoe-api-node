@@ -77,13 +77,15 @@ const dayAheadPrices = (
     const { startDate, endDate, biddingZone } = payload;
 
     try {
+      if (!startDate) {
+        throw new Error("'startDate' is required");
+      }
+
       if (!biddingZone) {
         throw new Error("'biddingZone' is required");
       }
 
-      const sd = startDate
-        ? new Date(new Date(startDate).setMinutes(0, 0, 0))
-        : new Date(new Date().setMinutes(0, 0, 0));
+      const sd = new Date(new Date(startDate).setMinutes(0, 0, 0));
       const ed = endDate
         ? new Date(new Date(endDate).setMinutes(0, 0, 0))
         : new Date(new Date(sd).setHours(sd.getHours() + 24));

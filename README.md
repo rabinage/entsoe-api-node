@@ -84,7 +84,7 @@ console.log(
 | Param       | Type   | Required | Default                | Info                          |
 | ----------- | ------ | -------- | ---------------------- | ----------------------------- |
 | biddingZone | String | true     |                        |
-| startDate   | String | false    | Current locale date    | ISO 8601 formated date string |
+| startDate   | String | true     |                        | ISO 8601 formated date string |
 | endDate     | String | false    | `startDate` + next day | ISO 8601 formated date string |
 
 - One year range limit applies
