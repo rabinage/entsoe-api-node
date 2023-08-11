@@ -1,10 +1,10 @@
 import qs from "querystring";
 import fetch from "node-fetch";
 
-import entsoe, { BiddingZones } from "../src/index";
+import entsoe, { BiddingZonesByCountry } from "../src/index";
 import { readMockFile } from "./utils";
 
-const biddingZone = BiddingZones.SW4; // Sweden zone 4
+const biddingZone = BiddingZonesByCountry.SE4; // Sweden zone 4
 const apiToken = "toker";
 const startDate = "2023-08-07T00:00:00.000Z";
 const endDate = "2023-08-08T00:00:00.000Z";

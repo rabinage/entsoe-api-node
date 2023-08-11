@@ -8,7 +8,7 @@ declare module "entsoe-api-node" {
     PRICE_DOCUMENT = "A44",
   }
 
-  export const enum BiddingZones {
+  export const enum BiddingZonesByCountry {
     AL = "10YAL-KESH-----5", // Albania
     AT = "10Y1001A1001A63L", // Austria
     BA = "10YBA-JPCC-----D", // Bosnia and Herzegovina
@@ -49,10 +49,10 @@ declare module "entsoe-api-node" {
     PT = "10YPT-REN------W", // Portugal
     RO = "10YRO-TEL------P", // Romania
     RS = "10YCS-SERBIATSOV", // Serb
-    SW1 = "10Y1001A1001A44P", // Sweden zone 1
-    SW2 = "10Y1001A1001A45N", // Swden zone 2
-    SW3 = "10Y1001A1001A46L", // Swden zone 3
-    SW4 = "10Y1001A1001A47J", // Sweden zone 4
+    SE1 = "10Y1001A1001A44P", // Sweden zone 1
+    SE2 = "10Y1001A1001A45N", // Swden zone 2
+    SE3 = "10Y1001A1001A46L", // Swden zone 3
+    SE4 = "10Y1001A1001A47J", // Sweden zone 4
     SL = "10YSI-ELES-----O", // Slovenia
     SK = "10YSK-SEPS-----K", // Slovak Republic
   }
@@ -106,7 +106,7 @@ declare module "entsoe-api-node" {
     // Article 12.1.D
     dayAheadPrices(
       payload: {
-        biddingZone: BiddingZones;
+        biddingZone: BiddingZonesByCountry;
         startDate?: string;
         endDate?: string;
       },

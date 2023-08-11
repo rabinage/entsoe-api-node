@@ -29,13 +29,13 @@ The API responses from the [ENTSO-E Transparency Platform](https://transparency.
 To use this wrapper, you must first register with the Transparency Platform and request access to the RESTful API by sending an email to transparency@entsoe.eu with 'Restful API access' in the subject line. Be sure to include the email address you used during registration in the email body. Once granted access, you can then generate a security token under the account settings.
 
 ```js
-import Entsoe, { BiddingZones } from "entsoe-api-node";
+import Entsoe, { BiddingZonesByCountry } from "entsoe-api-node";
 
 const client = Entsoe({ apiToken: "YOUR-SECURITY-TOKEN" });
 
 const result = await client.dayAheadPrices({
   startDate: new Date().toISOString(),
-  biddingZone: BiddingZones.SW4,
+  biddingZone: BiddingZonesByCountry.SE4,
 });
 ```
 
@@ -163,9 +163,11 @@ console.log(
 An utility bidding zone map is also being exported by the package in order for you to make readable request while using the API.
 
 ```js
-import { BiddingZones } from "entsoe-api-node";
+import { BiddingZonesByCountry } from "entsoe-api-node";
 
-console.log(await client.dayAheadPrices({ biddingZone: BiddingZones.SW4 }));
+console.log(
+  await client.dayAheadPrices({ biddingZone: BiddingZonesByCountry.SE4 }),
+);
 ```
 
 ##### This project is based on the [node-module-swc-cjs](https://github.com/rabinage/starters/tree/main/node-module-swc-cjs) starter. Check it out for more production ready starters!

@@ -1,10 +1,7 @@
 import fetch from "node-fetch";
 
 import { dayAheadPriceRT, badRequestRT, unauthRT } from "./transformers";
-import { DocumentTypes } from "./const";
-
-const BASE = "https://web-api.tp.entsoe.eu/api";
-const TESTNET = "https://web-api.tp-iop.entsoe.eu/api";
+import { DocumentTypes, BASE_URL, TESTNET_URL } from "./const";
 
 const makeQueryString = (query) =>
   query
@@ -109,7 +106,7 @@ const dayAheadPrices = (
 
 export default (opts) => {
   const req = request({
-    endpoint: opts.testnet ? TESTNET : BASE,
+    endpoint: opts.testnet ? TESTNET_URL : BASE_URL,
     apiToken: opts.apiToken,
   });
 

@@ -1,5 +1,5 @@
 import { parseStringPromise } from "xml2js";
-import Entsoe, { BiddingZones } from "../src/index";
+import Entsoe, { BiddingZonesByCountry } from "../src/index";
 
 /**
  * Example using a custom response transformer.
@@ -15,6 +15,6 @@ const customRt = async (xmlString) => {
   return json;
 };
 client
-  .dayAheadPrices({ biddingZone: BiddingZones.SW4 }, customRt)
+  .dayAheadPrices({ biddingZone: BiddingZonesByCountry.SE4 }, customRt)
   // eslint-disable-next-line no-console
   .then((res) => console.log(res));
