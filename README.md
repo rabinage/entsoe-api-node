@@ -4,7 +4,7 @@
 
 ### Why this wrapper
 
-The API responses from the [ENTSO-E Transparency Platform](https://transparency.entsoe.eu) are formatted in XML, which may not be easily consumable in JavaScript applications. This wrapper automatically converts the response into the more compatible JSON format.
+The API responses from the [ENTSO-E Transparency Platform](https://transparency.entsoe.eu) are formatted in XML, which may not be easily consumable in JavaScript applications. This wrapper transforms the response into the more compatible JSON format.
 
 - [ENTSO-E Transparency Platform](https://transparency.entsoe.eu/dashboard/show)
 - [Transparency Platform API spec.](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html)
@@ -18,7 +18,7 @@ The API responses from the [ENTSO-E Transparency Platform](https://transparency.
 - [Public REST Endpoints](#public-rest-endpoints)
   - [dayAheadPrices](#day-ahead-prices)
 - [Miscellaneous](#miscellaneous)
-  - [BiddingZones](#bidding-zones)
+  - [Bidding zones](#bidding-zones)
 
 ### Installation
 
@@ -81,11 +81,11 @@ console.log(
 );
 ```
 
-| Param       | Type   | Required | Default                | Info                          |
-| ----------- | ------ | -------- | ---------------------- | ----------------------------- |
-| biddingZone | String | true     |                        |
-| startDate   | String | true     |                        | ISO 8601 formated date string |
-| endDate     | String | false    | `startDate` + next day | ISO 8601 formated date string |
+| Param       | Type   | Required | Default                | Info                                                                                                                                  |
+| ----------- | ------ | -------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| biddingZone | String | true     |                        | Check out the utility [`BiddingZonesByCountry`](https://github.com/rabinage/entsoe-api-node#bidding-zones) for available zones/areas. |
+| startDate   | String | true     |                        | ISO 8601 formated date string                                                                                                         |
+| endDate     | String | false    | `startDate` + next day | ISO 8601 formated date string                                                                                                         |
 
 - One year range limit applies
 - Minimum time interval between `startDate` and `endDate` is one day
@@ -158,7 +158,7 @@ console.log(
 
 ### Miscellaneous
 
-#### BiddingZones
+#### Bidding zones
 
 An utility bidding zone map is also being exported by the package in order for you to make readable request while using the API.
 

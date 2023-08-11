@@ -1,13 +1,21 @@
 declare module "entsoe-api-node" {
+  /**
+   * Unofficial API wrapper for the ENTSO-E Transparency Platform.
+   *
+   * @see {@link https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html} ENTSO-E Transparency Platform RESTful API documentation.
+   * @see {@link https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html#_complete_parameter_list} Entsoe Transparency Platform RESTful API Appendix.
+   * @see {@link https://github.com/rabinage/entsoe-api-node} Wrapper documentation.
+   * @param {string} apiToken - API security token {@link https://github.com/rabinage/entsoe-api-node#getting-started}.
+   * @param {boolean} testnet - Optional. For testing purpose only.
+   */
   export default function (options?: {
     apiToken: string;
     testnet?: boolean;
   }): Entsoe;
 
-  export const enum DocumentTypes {
-    PRICE_DOCUMENT = "A44",
-  }
-
+  /**
+   * A.15. Areas divided into country codes, followed by potential zone number.
+   */
   export const enum BiddingZonesByCountry {
     AL = "10YAL-KESH-----5", // Albania
     AT = "10Y1001A1001A63L", // Austria
@@ -103,10 +111,16 @@ declare module "entsoe-api-node" {
   interface DayAheadPriceResponseTransformer extends ResponseTransformer {}
 
   export interface Entsoe {
-    // Article 12.1.D
+    /**
+     * A.12.1.D. Day ahead prices.
+     *
+     * @param {string} biddingZone - Bidding zone/area code.
+     * @param {string} startDate - ISO 8601 formated date string.
+     * @param {string} endDate - Optional. ISO 8601 formated date string.
+     */
     dayAheadPrices(
       payload: {
-        biddingZone: BiddingZonesByCountry;
+        biddingZone: string;
         startDate?: string;
         endDate?: string;
       },
