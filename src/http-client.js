@@ -1,14 +1,7 @@
 import fetch from "node-fetch";
 
-import {
-  dayAheadPriceRt,
-  badRequestRt,
-  unauthRt,
-} from "./response-transformers";
-import { DocumentTypes } from "./const";
-
-const BASE = "https://web-api.tp.entsoe.eu/api";
-const TESTNET = "https://web-api.tp-iop.entsoe.eu/api";
+import { dayAheadPriceRT, badRequestRT, unauthRT } from "./transformers";
+import { DocumentTypes, BASE_URL, TESTNET_URL } from "./const";
 
 const makeQueryString = (query) =>
   query
@@ -33,9 +26,9 @@ const responseHandler = async (req, transformResponse) => {
 
     error = new Error();
     if (resp.status === 401) {
-      error.message = await unauthRt(errorBody);
+      error.message = await unauthRT(errorBody);
     } else {
-      const json = await badRequestRt(errorBody);
+      const json = await badRequestRT(errorBody);
       error.message = json.message;
       error.code = json.code;
     }
@@ -75,19 +68,21 @@ const request =
 const dayAheadPrices = (
   req,
   payload = {},
-  transformResponse = dayAheadPriceRt,
+  transformResponse = dayAheadPriceRT,
 ) =>
   new Promise((resolve, reject) => {
     const { startDate, endDate, biddingZone } = payload;
 
     try {
+      if (!startDate) {
+        throw new Error("'startDate' is required");
+      }
+
       if (!biddingZone) {
         throw new Error("'biddingZone' is required");
       }
 
-      const sd = startDate
-        ? new Date(new Date(startDate).setMinutes(0, 0, 0))
-        : new Date(new Date().setMinutes(0, 0, 0));
+      const sd = new Date(new Date(startDate).setMinutes(0, 0, 0));
       const ed = endDate
         ? new Date(new Date(endDate).setMinutes(0, 0, 0))
         : new Date(new Date(sd).setHours(sd.getHours() + 24));
@@ -111,7 +106,7 @@ const dayAheadPrices = (
 
 export default (opts) => {
   const req = request({
-    endpoint: opts.testnet ? TESTNET : BASE,
+    endpoint: opts.testnet ? TESTNET_URL : BASE_URL,
     apiToken: opts.apiToken,
   });
 

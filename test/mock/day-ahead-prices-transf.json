@@ -1,0 +1,100 @@
+{
+  "mRID": "e5ddfbe2e5d145f0a7b716d7fb31d784",
+  "revisionNumber": 1,
+  "type": "A44",
+  "senderMarketParticipantMRID": "10X1001A1001A450",
+  "senderMarketParticipantMarketRoleType": "A32",
+  "receiverMarketParticipantMRID": "10X1001A1001A450",
+  "receiverMarketParticipantMarketRoleType": "A33",
+  "createdDateTime": "2023-08-07T13:12:19Z",
+  "timezone": "UTC",
+  "period": {
+    "timeInterval": { "start": "2023-08-06T22:00Z", "end": "2023-08-08T22:00Z" }
+  },
+  "timeSeries": [
+    {
+      "mRID": "1",
+      "businessType": "A62",
+      "inDomainMRID": "10Y1001A1001A47J",
+      "outDomainMRID": "10Y1001A1001A47J",
+      "currencyUnitName": "EUR",
+      "priceMeasureUnitName": "MWH",
+      "curveType": "A01",
+      "period": {
+        "timeInterval": {
+          "start": "2023-08-06T22:00Z",
+          "end": "2023-08-07T22:00Z"
+        },
+        "resolution": "PT60M",
+        "point": [
+          { "position": 1, "priceAmount": -0.19 },
+          { "position": 2, "priceAmount": -1.2 },
+          { "position": 3, "priceAmount": -2.07 },
+          { "position": 4, "priceAmount": -2.54 },
+          { "position": 5, "priceAmount": -2.38 },
+          { "position": 6, "priceAmount": -1.68 },
+          { "position": 7, "priceAmount": 0.01 },
+          { "position": 8, "priceAmount": 2.3 },
+          { "position": 9, "priceAmount": 4.4 },
+          { "position": 10, "priceAmount": 4.96 },
+          { "position": 11, "priceAmount": 4.07 },
+          { "position": 12, "priceAmount": 1 },
+          { "position": 13, "priceAmount": -0.01 },
+          { "position": 14, "priceAmount": -0.81 },
+          { "position": 15, "priceAmount": -1.11 },
+          { "position": 16, "priceAmount": -1.14 },
+          { "position": 17, "priceAmount": -0.9 },
+          { "position": 18, "priceAmount": -0.04 },
+          { "position": 19, "priceAmount": 0.78 },
+          { "position": 20, "priceAmount": 2.93 },
+          { "position": 21, "priceAmount": 1.41 },
+          { "position": 22, "priceAmount": 0.71 },
+          { "position": 23, "priceAmount": 0.01 },
+          { "position": 24, "priceAmount": -0.18 }
+        ]
+      }
+    },
+    {
+      "mRID": "2",
+      "businessType": "A62",
+      "inDomainMRID": "10Y1001A1001A47J",
+      "outDomainMRID": "10Y1001A1001A47J",
+      "currencyUnitName": "EUR",
+      "priceMeasureUnitName": "MWH",
+      "curveType": "A01",
+      "period": {
+        "timeInterval": {
+          "start": "2023-08-07T22:00Z",
+          "end": "2023-08-08T22:00Z"
+        },
+        "resolution": "PT60M",
+        "point": [
+          { "position": 1, "priceAmount": -4.28 },
+          { "position": 2, "priceAmount": -6.03 },
+          { "position": 3, "priceAmount": -6.2 },
+          { "position": 4, "priceAmount": -5.92 },
+          { "position": 5, "priceAmount": -5.08 },
+          { "position": 6, "priceAmount": -3.44 },
+          { "position": 7, "priceAmount": -1.69 },
+          { "position": 8, "priceAmount": -0.13 },
+          { "position": 9, "priceAmount": -0.58 },
+          { "position": 10, "priceAmount": -2.63 },
+          { "position": 11, "priceAmount": -5.24 },
+          { "position": 12, "priceAmount": -6.22 },
+          { "position": 13, "priceAmount": -6.22 },
+          { "position": 14, "priceAmount": -6.78 },
+          { "position": 15, "priceAmount": -10.01 },
+          { "position": 16, "priceAmount": -11.6 },
+          { "position": 17, "priceAmount": -5.69 },
+          { "position": 18, "priceAmount": -2.68 },
+          { "position": 19, "priceAmount": -2.07 },
+          { "position": 20, "priceAmount": -2.1 },
+          { "position": 21, "priceAmount": -2.49 },
+          { "position": 22, "priceAmount": -3.02 },
+          { "position": 23, "priceAmount": -4.24 },
+          { "position": 24, "priceAmount": -5.05 }
+        ]
+      }
+    }
+  ]
+}

@@ -4,7 +4,7 @@ export default (opts = {}) => ({
   ...httpMethods(opts),
 });
 
-export const BiddingZones = {
+export const BiddingZonesByCountry = {
   AL: "10YAL-KESH-----5",
   AT: "10Y1001A1001A63L",
   BA: "10YBA-JPCC-----D",
@@ -45,10 +45,10 @@ export const BiddingZones = {
   PT: "10YPT-REN------W",
   RO: "10YRO-TEL------P",
   RS: "10YCS-SERBIATSOV",
-  SW1: "10Y1001A1001A44P",
-  SW2: "10Y1001A1001A45N",
-  SW3: "10Y1001A1001A46L",
-  SW4: "10Y1001A1001A47J",
+  SE1: "10Y1001A1001A44P",
+  SE2: "10Y1001A1001A45N",
+  SE3: "10Y1001A1001A46L",
+  SE4: "10Y1001A1001A47J",
   SL: "10YSI-ELES-----O",
   SK: "10YSK-SEPS-----K",
 };

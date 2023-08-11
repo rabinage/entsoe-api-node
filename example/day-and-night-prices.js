@@ -1,4 +1,4 @@
-import Entsoe, { BiddingZones } from "../src/index";
+import Entsoe, { BiddingZonesByCountry } from "../src/index";
 
 /**
  * Print the current day and night price.
@@ -12,7 +12,7 @@ const client = Entsoe({ apiToken: process.env.API_TOKEN });
 client
   .dayAheadPrices({
     startDate: new Date().toISOString(),
-    biddingZone: BiddingZones.SW4,
+    biddingZone: BiddingZonesByCountry.SE4,
   })
   .then((res) => {
     res.timeSeries.forEach((ts) => {

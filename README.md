@@ -4,7 +4,7 @@
 
 ### Why this wrapper
 
-The API responses from the [ENTSO-E Transparency Platform](https://transparency.entsoe.eu) are formatted in XML, which may not be easily consumable in JavaScript applications. This wrapper automatically converts the response into the more compatible JSON format.
+The API responses from the [ENTSO-E Transparency Platform](https://transparency.entsoe.eu) are formatted in XML, which may not be easily consumable in JavaScript applications. This wrapper transforms the response into the more compatible JSON format.
 
 - [ENTSO-E Transparency Platform](https://transparency.entsoe.eu/dashboard/show)
 - [Transparency Platform API spec.](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html)
@@ -18,7 +18,7 @@ The API responses from the [ENTSO-E Transparency Platform](https://transparency.
 - [Public REST Endpoints](#public-rest-endpoints)
   - [dayAheadPrices](#day-ahead-prices)
 - [Miscellaneous](#miscellaneous)
-  - [BiddingZones](#bidding-zones)
+  - [Bidding zones](#bidding-zones)
 
 ### Installation
 
@@ -29,13 +29,13 @@ The API responses from the [ENTSO-E Transparency Platform](https://transparency.
 To use this wrapper, you must first register with the Transparency Platform and request access to the RESTful API by sending an email to transparency@entsoe.eu with 'Restful API access' in the subject line. Be sure to include the email address you used during registration in the email body. Once granted access, you can then generate a security token under the account settings.
 
 ```js
-import Entsoe, { BiddingZones } from "entsoe-api-node";
+import Entsoe, { BiddingZonesByCountry } from "entsoe-api-node";
 
 const client = Entsoe({ apiToken: "YOUR-SECURITY-TOKEN" });
 
 const result = await client.dayAheadPrices({
   startDate: new Date().toISOString(),
-  biddingZone: BiddingZones.SW4,
+  biddingZone: BiddingZonesByCountry.SE4,
 });
 ```
 
@@ -81,11 +81,11 @@ console.log(
 );
 ```
 
-| Param       | Type   | Required | Default                | Info                          |
-| ----------- | ------ | -------- | ---------------------- | ----------------------------- |
-| biddingZone | String | true     |                        |
-| startDate   | String | false    | Current locale date    | ISO 8601 formated date string |
-| endDate     | String | false    | `startDate` + next day | ISO 8601 formated date string |
+| Param       | Type   | Required | Default                | Info                                                                                                                                  |
+| ----------- | ------ | -------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| biddingZone | String | true     |                        | Check out the utility [`BiddingZonesByCountry`](https://github.com/rabinage/entsoe-api-node#bidding-zones) for available zones/areas. |
+| startDate   | String | true     |                        | ISO 8601 formated date string                                                                                                         |
+| endDate     | String | false    | `startDate` + next day | ISO 8601 formated date string                                                                                                         |
 
 - One year range limit applies
 - Minimum time interval between `startDate` and `endDate` is one day
@@ -158,14 +158,16 @@ console.log(
 
 ### Miscellaneous
 
-#### BiddingZones
+#### Bidding zones
 
 An utility bidding zone map is also being exported by the package in order for you to make readable request while using the API.
 
 ```js
-import { BiddingZones } from "entsoe-api-node";
+import { BiddingZonesByCountry } from "entsoe-api-node";
 
-console.log(await client.dayAheadPrices({ biddingZone: BiddingZones.SW4 }));
+console.log(
+  await client.dayAheadPrices({ biddingZone: BiddingZonesByCountry.SE4 }),
+);
 ```
 
 ##### This project is based on the [node-module-swc-cjs](https://github.com/rabinage/starters/tree/main/node-module-swc-cjs) starter. Check it out for more production ready starters!

@@ -1,14 +1,21 @@
 declare module "entsoe-api-node" {
+  /**
+   * Unofficial API wrapper for the ENTSO-E Transparency Platform.
+   * @see {@link https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html} ENTSO-E Transparency Platform RESTful API documentation.
+   * @see {@link https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html#_complete_parameter_list} Entsoe Transparency Platform RESTful API Appendix.
+   * @see {@link https://github.com/rabinage/entsoe-api-node} Wrapper documentation.
+   * @param {string} apiToken - API security token {@link https://github.com/rabinage/entsoe-api-node#getting-started}.
+   * @param {boolean} testnet - Optional. For testing purpose only.
+   */
   export default function (options?: {
     apiToken: string;
     testnet?: boolean;
   }): Entsoe;
 
-  export const enum DocumentTypes {
-    PRICE_DOCUMENT = "A44",
-  }
-
-  export const enum BiddingZones {
+  /**
+   * A.15. Areas divided into country codes, followed by potential zone number.
+   */
+  export const enum BiddingZonesByCountry {
     AL = "10YAL-KESH-----5", // Albania
     AT = "10Y1001A1001A63L", // Austria
     BA = "10YBA-JPCC-----D", // Bosnia and Herzegovina
@@ -49,10 +56,10 @@ declare module "entsoe-api-node" {
     PT = "10YPT-REN------W", // Portugal
     RO = "10YRO-TEL------P", // Romania
     RS = "10YCS-SERBIATSOV", // Serb
-    SW1 = "10Y1001A1001A44P", // Sweden zone 1
-    SW2 = "10Y1001A1001A45N", // Swden zone 2
-    SW3 = "10Y1001A1001A46L", // Swden zone 3
-    SW4 = "10Y1001A1001A47J", // Sweden zone 4
+    SE1 = "10Y1001A1001A44P", // Sweden zone 1
+    SE2 = "10Y1001A1001A45N", // Swden zone 2
+    SE3 = "10Y1001A1001A46L", // Swden zone 3
+    SE4 = "10Y1001A1001A47J", // Sweden zone 4
     SL = "10YSI-ELES-----O", // Slovenia
     SK = "10YSK-SEPS-----K", // Slovak Republic
   }
@@ -103,10 +110,15 @@ declare module "entsoe-api-node" {
   interface DayAheadPriceResponseTransformer extends ResponseTransformer {}
 
   export interface Entsoe {
-    // Article 12.1.D
+    /**
+     * A.12.1.D. Day ahead prices.
+     * @param {string} biddingZone - Bidding zone/area code.
+     * @param {string} startDate - ISO 8601 formated date string.
+     * @param {string} endDate - Optional. ISO 8601 formated date string.
+     */
     dayAheadPrices(
       payload: {
-        biddingZone: BiddingZones;
+        biddingZone: string;
         startDate?: string;
         endDate?: string;
       },
