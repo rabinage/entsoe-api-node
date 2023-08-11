@@ -1,7 +1,6 @@
 declare module "entsoe-api-node" {
   /**
    * Unofficial API wrapper for the ENTSO-E Transparency Platform.
-   *
    * @see {@link https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html} ENTSO-E Transparency Platform RESTful API documentation.
    * @see {@link https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html#_complete_parameter_list} Entsoe Transparency Platform RESTful API Appendix.
    * @see {@link https://github.com/rabinage/entsoe-api-node} Wrapper documentation.
@@ -113,7 +112,6 @@ declare module "entsoe-api-node" {
   export interface Entsoe {
     /**
      * A.12.1.D. Day ahead prices.
-     *
      * @param {string} biddingZone - Bidding zone/area code.
      * @param {string} startDate - ISO 8601 formated date string.
      * @param {string} endDate - Optional. ISO 8601 formated date string.
