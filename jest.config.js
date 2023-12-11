@@ -14,4 +14,5 @@ module.exports = {
       statements: thresholdPercentage,
     },
   },
+  resetMocks: true,
 };

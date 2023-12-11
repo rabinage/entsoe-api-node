@@ -13,7 +13,7 @@ const makeQueryString = (query) =>
         .join("&")}`
     : "";
 
-const responseHandler = async (req, transformResponse) => {
+const responseHandler = async (req, requestInterceptor, transformResponse) => {
   const resp = await req;
 
   if (resp.ok) {
@@ -27,6 +27,10 @@ const responseHandler = async (req, transformResponse) => {
     error = new Error();
     if (resp.status === 401) {
       error.message = await unauthRT(errorBody);
+    } else if (resp.status === 429) {
+      requestInterceptor.throttle();
+      error.message =
+        "Too many requests - max allowed 400 per minutes from each unique IP";
     } else {
       const json = await badRequestRT(errorBody);
       error.message = json.message;
@@ -39,7 +43,7 @@ const responseHandler = async (req, transformResponse) => {
 };
 
 const request =
-  ({ endpoint, apiToken }) =>
+  ({ endpoint, apiToken, requestInterceptor }) =>
   ({
     params = {},
     data,
@@ -49,18 +53,22 @@ const request =
     },
     transformResponse,
   } = {}) => {
+    const shouldCancel = requestInterceptor.request();
     return responseHandler(
-      fetch(
-        `${endpoint}${makeQueryString({
-          ...params,
-          securityToken: apiToken,
-        })}`,
-        {
-          method,
-          headers,
-          body: data ? JSON.stringify(data) : undefined,
-        },
-      ),
+      shouldCancel
+        ? Promise.reject(new Error("Request throttled"))
+        : fetch(
+            `${endpoint}${makeQueryString({
+              ...params,
+              securityToken: apiToken,
+            })}`,
+            {
+              method,
+              headers,
+              body: data ? JSON.stringify(data) : undefined,
+            },
+          ),
+      requestInterceptor,
       transformResponse,
     );
   };
@@ -105,9 +113,43 @@ const dayAheadPrices = (
   });
 
 export default (opts) => {
+  const requestState = {
+    initialRequest: null,
+    requestCount: 0,
+    isThrottled: false,
+  };
+
   const req = request({
     endpoint: opts.testnet ? TESTNET_URL : BASE_URL,
     apiToken: opts.apiToken,
+    requestInterceptor: {
+      request: () => {
+        const now = Date.now();
+        if (
+          !requestState.initialRequest ||
+          now - requestState.initialRequest >= 60 * 1000
+        ) {
+          requestState.initialRequest = now;
+          requestState.requestCount = 0;
+          requestState.isThrottled = false;
+        } else {
+          requestState.requestCount += 1;
+          if (requestState.requestCount >= 400) {
+            requestState.isThrottled = true;
+          }
+        }
+
+        return requestState.isThrottled;
+      },
+      throttle: () => {
+        requestState.isThrottled = true;
+        setTimeout(() => {
+          requestState.initialRequest = Date.now();
+          requestState.requestCount = 0;
+          requestState.isThrottled = false;
+        }, 60 * 1000);
+      },
+    },
   });
 
   return {

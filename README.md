@@ -64,6 +64,8 @@ Time is always expressed in UTC.
 
 Each method accepts an optional second parameter to customize the XML response.
 
+Automatically throttle if the limit of 400 requests per minute is reached.
+
 ```js
 console.log(await client.dayAheadPrices({ biddingZone: "10Y1001A1001A47J" }, (xmlString) async => /* parse the XML and return some magic */));
 ```

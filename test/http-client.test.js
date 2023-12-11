@@ -71,6 +71,90 @@ describe("API client Tests", () => {
     ).rejects.toThrow("Unexpected error:");
   });
 
+  test("should throttle after 400 requests", async () => {
+    const client2 = entsoe({ apiToken });
+    const rawResponse = readMockFile("day-ahead-prices-resp.xml");
+    const mockResponse = {
+      ok: true,
+      status: 200,
+      text: jest.fn().mockResolvedValue(rawResponse),
+      headers: {
+        get: jest.fn(() => "application/xml"),
+      },
+    };
+    fetch.mockResolvedValue(mockResponse);
+
+    const requests = Array.from({ length: 401 }).map(
+      () => () =>
+        client2.dayAheadPrices({ startDate: "2023-08-26", biddingZone }),
+    );
+
+    await Promise.all(
+      requests.map((promise, index) => {
+        return promise()
+          .then(() => {
+            if (index <= 400) {
+              expect(fetch).toHaveBeenLastCalledWith(
+                expect.any(String),
+                expect.objectContaining({
+                  headers: expect.anything(),
+                }),
+              );
+            } else {
+              expect(fetch).not.toHaveBeenLastCalledWith(
+                expect.any(String),
+                expect.objectContaining({
+                  headers: expect.anything(),
+                }),
+              );
+            }
+          })
+          .catch((error) => {
+            if (index <= 400) {
+              expect(error.message).toBe("Request throttled");
+            } else {
+              expect(error.message).not.toBe("Request throttled");
+            }
+          });
+      }),
+    );
+  });
+
+  test("should reset throttle after one minute", async () => {
+    const client2 = entsoe({ apiToken });
+    const originalDateNow = Date.now;
+    const now = Date.now();
+    Date.now = jest.fn(() => now);
+    const rawResponse = readMockFile("day-ahead-prices-resp.xml");
+    const mockResponse = {
+      ok: true,
+      status: 200,
+      text: jest.fn().mockResolvedValue(rawResponse),
+      headers: {
+        get: jest.fn(() => "application/xml"),
+      },
+    };
+    fetch.mockResolvedValue(mockResponse);
+
+    // Make 400 requests
+    await Promise.all(
+      Array.from({ length: 400 }).map(() =>
+        client2.dayAheadPrices({ startDate: "2023-08-26", biddingZone }),
+      ),
+    );
+
+    // Make a request after 60 seconds
+    Date.now = jest.fn(() => now + 60 * 1000 + 1);
+    await client2.dayAheadPrices({
+      startDate: "2023-08-26",
+      biddingZone,
+    });
+
+    expect(fetch).toHaveBeenCalledTimes(401); // Initial 400 + 1 after reset
+
+    Date.now = originalDateNow; // Restore Date.now to original implementation
+  });
+
   test("dayAheadPrices should make a successful request and return transformed data", async () => {
     const url = `https://web-api.tp.entsoe.eu/api?in_Domain=${biddingZone}&out_Domain=${biddingZone}&timeInterval=${qs.escape(
       `${startDate}/${endDate}`,
