@@ -1,24 +1,22 @@
 import qs from "querystring";
 import fetch from "node-fetch";
-
 import entsoe, { BiddingZonesByCountry } from "../src/index";
 import { readMockFile } from "./utils";
+
+jest.mock("node-fetch");
 
 const biddingZone = BiddingZonesByCountry.SE4; // Sweden zone 4
 const apiToken = "toker";
 const startDate = "2023-08-07T00:00:00.000Z";
 const endDate = "2023-08-08T00:00:00.000Z";
 
-const client = entsoe({ apiToken });
-
-jest.mock("node-fetch");
-
-describe("API client Tests", () => {
+describe("API client", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  test("API client should handle 401 status and return unauthRT error message", async () => {
+  test("should handle 401 status and return unauthRT error message", async () => {
+    const client = entsoe({ apiToken });
     const rawResponse = readMockFile("unauth-resp.xml");
     const mockResponse = {
       ok: false,
@@ -36,7 +34,8 @@ describe("API client Tests", () => {
     ).rejects.toThrow("Unauthorized. Missing or invalid security token");
   });
 
-  test("API client should handle 400 status and return badRequestRT error message", async () => {
+  test("should handle 400 status and return badRequestRT error message", async () => {
+    const client = entsoe({ apiToken });
     const rawResponse = readMockFile("bad-request-resp.xml");
     const mockResponse = {
       ok: false,
@@ -54,7 +53,8 @@ describe("API client Tests", () => {
     ).rejects.toThrow("Bad request message from API");
   });
 
-  test("API client should all other errors as unexpected errors", async () => {
+  test("should all other errors as unexpected errors", async () => {
+    const client = entsoe({ apiToken });
     const mockResponse = {
       ok: false,
       status: 400,
@@ -72,7 +72,7 @@ describe("API client Tests", () => {
   });
 
   test("should throttle after 400 requests", async () => {
-    const client2 = entsoe({ apiToken });
+    const client = entsoe({ apiToken });
     const rawResponse = readMockFile("day-ahead-prices-resp.xml");
     const mockResponse = {
       ok: true,
@@ -86,7 +86,7 @@ describe("API client Tests", () => {
 
     const requests = Array.from({ length: 401 }).map(
       () => () =>
-        client2.dayAheadPrices({ startDate: "2023-08-26", biddingZone }),
+        client.dayAheadPrices({ startDate: "2023-08-26", biddingZone }),
     );
 
     await Promise.all(
@@ -121,7 +121,7 @@ describe("API client Tests", () => {
   });
 
   test("should reset throttle after one minute", async () => {
-    const client2 = entsoe({ apiToken });
+    const client = entsoe({ apiToken });
     const originalDateNow = Date.now;
     const now = Date.now();
     Date.now = jest.fn(() => now);
@@ -139,13 +139,13 @@ describe("API client Tests", () => {
     // Make 400 requests
     await Promise.all(
       Array.from({ length: 400 }).map(() =>
-        client2.dayAheadPrices({ startDate: "2023-08-26", biddingZone }),
+        client.dayAheadPrices({ startDate: "2023-08-26", biddingZone }),
       ),
     );
 
     // Make a request after 60 seconds
     Date.now = jest.fn(() => now + 60 * 1000 + 1);
-    await client2.dayAheadPrices({
+    await client.dayAheadPrices({
       startDate: "2023-08-26",
       biddingZone,
     });
@@ -156,6 +156,7 @@ describe("API client Tests", () => {
   });
 
   test("dayAheadPrices should make a successful request and return transformed data", async () => {
+    const client = entsoe({ apiToken });
     const url = `https://web-api.tp.entsoe.eu/api?in_Domain=${biddingZone}&out_Domain=${biddingZone}&timeInterval=${qs.escape(
       `${startDate}/${endDate}`,
     )}&documentType=A44&securityToken=${apiToken}`;
@@ -167,6 +168,9 @@ describe("API client Tests", () => {
     const mockResponse = {
       ok: true,
       text: jest.fn().mockResolvedValue(rawResponse),
+      headers: {
+        get: jest.fn(() => "application/xml"),
+      },
     };
     fetch.mockResolvedValue(mockResponse);
 
@@ -188,6 +192,7 @@ describe("API client Tests", () => {
   });
 
   test("dayAheadPrices should throw an error when 'startDate' is missing", async () => {
+    const client = entsoe({ apiToken });
     await expect(
       client.dayAheadPrices({
         endDate,
@@ -197,6 +202,7 @@ describe("API client Tests", () => {
   });
 
   test("dayAheadPrices should throw an error when 'biddingZone' is missing", async () => {
+    const client = entsoe({ apiToken });
     await expect(
       client.dayAheadPrices({
         startDate,

@@ -1,77 +1,6 @@
 import fetch from "node-fetch";
-
 import { dayAheadPriceRT, badRequestRT, unauthRT } from "./transformers";
-import { DocumentTypes, BASE_URL, TESTNET_URL } from "./const";
-
-const makeQueryString = (query) =>
-  query
-    ? `?${Object.keys(query)
-        .map(
-          (key) =>
-            `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`,
-        )
-        .join("&")}`
-    : "";
-
-const responseHandler = async (req, requestInterceptor, transformResponse) => {
-  const resp = await req;
-
-  if (resp.ok) {
-    return transformResponse(await resp.text());
-  }
-
-  let error;
-  try {
-    const errorBody = await resp.text();
-
-    error = new Error();
-    if (resp.status === 401) {
-      error.message = await unauthRT(errorBody);
-    } else if (resp.status === 429) {
-      requestInterceptor.throttle();
-      error.message =
-        "Too many requests - max allowed 400 per minutes from each unique IP";
-    } else {
-      const json = await badRequestRT(errorBody);
-      error.message = json.message;
-      error.code = json.code;
-    }
-  } catch (err) {
-    error = new Error(`Unexpected error: ${err}`);
-  }
-  throw error;
-};
-
-const request =
-  ({ endpoint, apiToken, requestInterceptor }) =>
-  ({
-    params = {},
-    data,
-    method = "GET",
-    headers = {
-      "Content-Type": "application/xml",
-    },
-    transformResponse,
-  } = {}) => {
-    const shouldCancel = requestInterceptor.request();
-    return responseHandler(
-      shouldCancel
-        ? Promise.reject(new Error("Request throttled"))
-        : fetch(
-            `${endpoint}${makeQueryString({
-              ...params,
-              securityToken: apiToken,
-            })}`,
-            {
-              method,
-              headers,
-              body: data ? JSON.stringify(data) : undefined,
-            },
-          ),
-      requestInterceptor,
-      transformResponse,
-    );
-  };
+import { BASE_URL, TESTNET_URL } from "./const";
 
 const dayAheadPrices = (
   req,
@@ -102,7 +31,7 @@ const dayAheadPrices = (
             in_Domain: biddingZone,
             out_Domain: biddingZone,
             timeInterval,
-            documentType: DocumentTypes.PRICE_DOCUMENT,
+            documentType: "A44",
           },
           transformResponse,
         }),
@@ -118,6 +47,80 @@ export default (opts) => {
     requestCount: 0,
     isThrottled: false,
   };
+
+  const makeQueryString = (query) =>
+    query
+      ? `?${Object.keys(query)
+          .map(
+            (key) =>
+              `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`,
+          )
+          .join("&")}`
+      : "";
+
+  const responseHandler = async (
+    req,
+    requestInterceptor,
+    transformResponse,
+  ) => {
+    const resp = await req;
+
+    if (resp.ok) {
+      return transformResponse(await resp.text());
+    }
+
+    let error;
+    try {
+      const errorBody = await resp.text();
+
+      error = new Error();
+      if (resp.status === 401) {
+        error.message = await unauthRT(errorBody);
+      } else if (resp.status === 429) {
+        requestInterceptor.throttle();
+        error.message =
+          "Too many requests - max allowed 400 per minutes from each unique IP";
+      } else {
+        const json = await badRequestRT(errorBody);
+        error.message = json.message;
+        error.code = json.code;
+      }
+    } catch (err) {
+      error = new Error(`Unexpected error: ${err}`);
+    }
+    throw error;
+  };
+
+  const request =
+    ({ endpoint, apiToken, requestInterceptor }) =>
+    ({
+      params = {},
+      data,
+      method = "GET",
+      headers = {
+        "Content-Type": "application/xml",
+      },
+      transformResponse,
+    } = {}) => {
+      const shouldCancel = requestInterceptor.request();
+      return responseHandler(
+        shouldCancel
+          ? Promise.reject(new Error("Request throttled"))
+          : fetch(
+              `${endpoint}${makeQueryString({
+                ...params,
+                securityToken: apiToken,
+              })}`,
+              {
+                method,
+                headers,
+                body: data ? JSON.stringify(data) : undefined,
+              },
+            ),
+        requestInterceptor,
+        transformResponse,
+      );
+    };
 
   const req = request({
     endpoint: opts.testnet ? TESTNET_URL : BASE_URL,
