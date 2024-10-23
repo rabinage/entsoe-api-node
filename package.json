@@ -43,7 +43,7 @@
     "@swc/core": "1.7.39",
     "@swc/jest": "0.2.36",
     "@swc/register": "0.1.10",
-    "@types/jest": "29.5.13",
+    "@types/jest": "29.5.14",
     "dotenv": "16.4.5",
     "eslint": "8.57.1",
     "eslint-config-airbnb-base": "15.0.0",
