@@ -1,15 +1,13 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "ecmascript"
+  "$schema": "https://swc.rs/schema.json",
+  "env": {
+    "targets": {
+      "node": "16"
     }
   },
   "module": {
-    "type": "commonjs"
-  },
-  "env": {
-    "targets": {
-      "node": "14"
-    }
+    "type": "commonjs",
+    "strict": true,
+    "noInterop": false
   }
 }
