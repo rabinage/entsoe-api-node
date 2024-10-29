@@ -13,13 +13,17 @@
     "entso-e"
   ],
   "license": "MIT",
-  "type": "commonjs",
-  "main": "./dist",
+  "main": "./dist/index.js",
   "typings": "./index.d.ts",
   "files": [
     "dist",
     "index.d.ts"
   ],
+  "exports": {
+    ".": {
+      "require": "./dist/index.js"  
+    }
+  },
   "scripts": {
     "start": "node dist/index.js",
     "build": "npx swc src --delete-dir-on-start --env-name=\"production\" --out-dir dist",
