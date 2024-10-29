@@ -1,7 +1,7 @@
 const thresholdPercentage = 80;
 
 /** @type {import('jest').Config} */
-module.exports = {
+export default {
   transform: {
     "^.+\\.js?$": ["@swc/jest"],
   },
