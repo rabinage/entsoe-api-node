@@ -1,7 +1,7 @@
 import qs from "querystring";
 import fetch from "node-fetch";
-import entsoe, { BiddingZonesByCountry } from "../src/index";
-import { readMockFile } from "./utils";
+import entsoe, { BiddingZonesByCountry } from "../src/index.mjs";
+import { readMockFile } from "./utils.mjs";
 
 jest.mock("node-fetch");
 
