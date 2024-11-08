@@ -16,5 +16,4 @@ const customRt = async (xmlString) => {
 };
 client
   .dayAheadPrices({ biddingZone: BiddingZonesByCountry.SE4 }, customRt)
-  // eslint-disable-next-line no-console
   .then((res) => console.log(res));
