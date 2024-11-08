@@ -10,19 +10,20 @@ export const endDate = "2023-08-08T00:00:00.000Z";
 const mockAgent = new MockAgent();
 mockAgent.disableNetConnect();
 setGlobalDispatcher(mockAgent);
-const apiMock = mockAgent.get(BASE_URL)
+const apiMock = mockAgent.get(BASE_URL);
 const baseInterceptor = apiMock.intercept({
-    headers: {
-        "Content-Type": "application/xml",
-    },
-    method: "GET",
-    path: "/api", query: {
-        in_Domain: biddingZone,
-        out_Domain: biddingZone,
-        timeInterval: `${startDate}/${endDate}`,
-        documentType: "A44",
-        securityToken: apiToken
-    },
-})
+  headers: {
+    "Content-Type": "application/xml",
+  },
+  method: "GET",
+  path: "/api",
+  query: {
+    in_Domain: biddingZone,
+    out_Domain: biddingZone,
+    timeInterval: `${startDate}/${endDate}`,
+    documentType: "A44",
+    securityToken: apiToken,
+  },
+});
 
-export { baseInterceptor, mockAgent }
+export { baseInterceptor, mockAgent };

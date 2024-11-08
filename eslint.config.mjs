@@ -33,6 +33,11 @@ export default [
           allowModules: ["globals"],
         },
       ],
+      "n/no-unsupported-features/es-syntax": ["warn", { version: ">=20.0.0" }],
+      "n/no-unsupported-features/node-builtins": [
+        "warn",
+        { version: ">=20.0.0" },
+      ],
     },
   },
 ];
