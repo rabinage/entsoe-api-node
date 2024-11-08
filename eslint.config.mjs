@@ -1,7 +1,6 @@
 import configPrettier from "eslint-config-prettier";
 import globals from "globals";
 import js from "@eslint/js";
-import pluginJest from "eslint-plugin-jest";
 import pluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import pluginNode from "eslint-plugin-n";
 
@@ -9,13 +8,6 @@ import pluginNode from "eslint-plugin-n";
 export default [
   js.configs.recommended,
   pluginNode.configs["flat/recommended-script"],
-  {
-    files: ["**/*.test.js"],
-    plugins: { jest: pluginJest },
-    languageOptions: {
-      globals: pluginJest.environments.globals.globals,
-    },
-  },
   configPrettier,
   pluginPrettierRecommended,
   {

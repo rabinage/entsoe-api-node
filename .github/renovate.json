@@ -6,10 +6,6 @@
     {
       "matchDepTypes": ["devDependencies"],
       "automerge": true
-    },
-    {
-      "matchPackagePatterns": ["node-fetch"],
-      "enabled": false
     }
   ]
 }
