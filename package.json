@@ -39,7 +39,7 @@
     "quiet": true
   },
   "devDependencies": {
-    "@swc/cli": "0.5.1",
+    "@swc/cli": "0.5.2",
     "@swc/core": "1.9.3",
     "@swc/jest": "0.2.37",
     "@swc/register": "0.1.10",
