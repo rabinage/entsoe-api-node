@@ -1,5 +1,4 @@
 import configPrettier from "eslint-config-prettier";
-import globals from "globals";
 import js from "@eslint/js";
 import pluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import pluginNode from "eslint-plugin-n";
@@ -17,9 +16,6 @@ export default [
       parserOptions: {
         ecmaVersion: "latest",
       },
-      globals: {
-        ...globals.node,
-      },
     },
     settings: {
       node: {
@@ -29,12 +25,6 @@ export default [
     ignores: ["dist/**"],
     rules: {
       "prettier/prettier": "warn",
-      "n/no-extraneous-import": [
-        "off",
-        {
-          allowModules: ["globals"],
-        },
-      ],
     },
   },
 ];

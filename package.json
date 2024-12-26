@@ -30,7 +30,7 @@
     "example:dev": "nodemon --watch example",
     "test": "node -r \"dotenv/config\" test/http-client.test.mjs",
     "format": "npx prettier --write . && npx eslint --fix src test example",
-    "lint": "npx prettier --check . && npx eslint --max-warnings=0 src test example",
+    "lint": "npx prettier --check . && npx eslint --max-warnings=0 .",
     "precommit": "npm run lint"
   },
   "engines": {
