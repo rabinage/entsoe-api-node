@@ -7,7 +7,7 @@ import pluginNode from "eslint-plugin-n";
 /** @type { import("eslint").Linter.Config[] } */
 export default [
   js.configs.recommended,
-  pluginNode.configs["flat/recommended-script"],
+  pluginNode.configs["flat/recommended-module"],
   configPrettier,
   pluginPrettierRecommended,
   {
@@ -22,7 +22,9 @@ export default [
       },
     },
     settings: {
-      allowModules: ["globals"],
+      node: {
+        version: ">=20.0.0",
+      },
     },
     ignores: ["dist/**"],
     rules: {
@@ -32,11 +34,6 @@ export default [
         {
           allowModules: ["globals"],
         },
-      ],
-      "n/no-unsupported-features/es-syntax": ["warn", { version: ">=20.0.0" }],
-      "n/no-unsupported-features/node-builtins": [
-        "warn",
-        { version: ">=20.0.0" },
       ],
     },
   },
