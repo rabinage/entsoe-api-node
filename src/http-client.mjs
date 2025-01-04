@@ -1,6 +1,6 @@
-import fetch from "node-fetch";
-import { dayAheadPriceRT, badRequestRT, unauthRT } from "./transformers";
-import { BASE_URL, TESTNET_URL } from "./const";
+import { fetch } from "undici";
+import { dayAheadPriceRT, badRequestRT, unauthRT } from "./transformers.mjs";
+import { BASE_URL, TESTNET_URL } from "./const.mjs";
 
 const dayAheadPrices = (
   req,
@@ -107,7 +107,7 @@ export default (opts) => {
         shouldCancel
           ? Promise.reject(new Error("Request throttled"))
           : fetch(
-              `${endpoint}${makeQueryString({
+              `${endpoint}/api${makeQueryString({
                 ...params,
                 securityToken: apiToken,
               })}`,

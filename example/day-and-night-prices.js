@@ -18,7 +18,6 @@ client
     res.timeSeries.forEach((ts) => {
       const date = new Date(ts.period.timeInterval.start).toLocaleDateString();
 
-      // eslint-disable-next-line no-console
       console.table(
         ts.period.point.map((p) => {
           const hour = `${formatHour(
