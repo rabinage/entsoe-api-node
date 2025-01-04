@@ -40,6 +40,21 @@ describe("API client", () => {
     );
   });
 
+  test("should handle soft error message", async () => {
+    const client = entsoe({ apiToken });
+    baseInterceptor.reply(200, readMockFile("bad-request-resp.xml"));
+
+    const result = await client.dayAheadPrices({
+      startDate,
+      endDate,
+      biddingZone,
+    });
+    assert.deepStrictEqual(result, {
+      code: "999",
+      message: "Bad request message from API",
+    });
+  });
+
   test("should handle other errors as unexpected errors", async () => {
     const client = entsoe({ apiToken });
     baseInterceptor.reply(400, "<? ");

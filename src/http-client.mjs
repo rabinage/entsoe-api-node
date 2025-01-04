@@ -1,6 +1,7 @@
 import { fetch } from "undici";
 import { dayAheadPriceRT, badRequestRT, unauthRT } from "./transformers.mjs";
 import { BASE_URL, TESTNET_URL } from "./const.mjs";
+import { parseStringPromise } from "xml2js";
 
 const dayAheadPrices = (
   req,
@@ -64,24 +65,31 @@ export default (opts) => {
     transformResponse,
   ) => {
     const resp = await req;
-
-    if (resp.ok) {
-      return transformResponse(await resp.text());
-    }
+    const data = await resp.text();
 
     let error;
     try {
-      const errorBody = await resp.text();
+      const json = await parseStringPromise(data);
+
+      if (resp.ok) {
+        if (json.Acknowledgement_MarketDocument) {
+          return badRequestRT(json);
+        }
+        return transformResponse(json);
+      }
 
       error = new Error();
-      if (resp.status === 401) {
-        error.message = await unauthRT(errorBody);
+      if (resp.status === 400) {
+        const badRequestJson = badRequestRT(json);
+        error.message = badRequestJson.message;
+        error.code = badRequestJson.code;
+      } else if (resp.status === 401) {
+        error.message = await unauthRT(json);
       } else if (resp.status === 429) {
         requestInterceptor.throttle();
         error.message =
           "Too many requests - max allowed 400 per minutes from each unique IP";
       } else {
-        const json = await badRequestRT(errorBody);
         error.message = json.message;
         error.code = json.code;
       }

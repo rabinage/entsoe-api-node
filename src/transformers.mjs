@@ -1,7 +1,4 @@
-import { parseStringPromise } from "xml2js";
-
-export const dayAheadPriceRT = async (data) => {
-  const json = await parseStringPromise(data);
+export const dayAheadPriceRT = (json) => {
   const r = json.Publication_MarketDocument;
 
   return {
@@ -45,8 +42,7 @@ export const dayAheadPriceRT = async (data) => {
   };
 };
 
-export const badRequestRT = async (data) => {
-  const json = await parseStringPromise(data);
+export const badRequestRT = (json) => {
   const r = json.Acknowledgement_MarketDocument.Reason[0];
 
   return {
@@ -55,8 +51,6 @@ export const badRequestRT = async (data) => {
   };
 };
 
-export const unauthRT = async (data) => {
-  const json = await parseStringPromise(data);
-
+export const unauthRT = (json) => {
   return json.html.body[0];
 };
