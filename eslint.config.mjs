@@ -15,7 +15,7 @@ export default [
       sourceType: "module",
       parserOptions: { ecmaVersion: "latest" },
     },
-    settings: { node: { version: ">=14.0.0" } },
+    settings: { node: { version: ">=16.0.0" } },
     ignores: ["dist/**"],
     rules: { "prettier/prettier": "warn" },
   },
