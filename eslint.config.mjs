@@ -19,7 +19,7 @@ export default [
     },
     settings: {
       node: {
-        version: ">=20.0.0",
+        version: ">=16.0.0",
       },
     },
     ignores: ["dist/**"],
