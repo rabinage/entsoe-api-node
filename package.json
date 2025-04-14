@@ -43,23 +43,23 @@
     "quiet": true
   },
   "devDependencies": {
-    "@eslint/js": "9.13.0",
-    "@swc/cli": "0.4.0",
-    "@swc/core": "1.7.40",
+    "@eslint/js": "9.24.0",
+    "@swc/cli": "0.6.0",
+    "@swc/core": "1.11.21",
     "@swc/register": "0.1.10",
-    "@types/node": "20.17.3",
-    "dotenv": "16.4.5",
-    "eslint": "9.13.0",
-    "eslint-config-prettier": "9.1.0",
+    "@types/node": "22.14.1",
+    "dotenv": "16.5.0",
+    "eslint": "9.24.0",
+    "eslint-config-prettier": "10.1.2",
     "eslint-plugin-import": "2.31.0",
-    "eslint-plugin-n": "17.11.1",
-    "eslint-plugin-prettier": "5.2.1",
-    "husky": "9.1.6",
-    "nodemon": "3.1.7",
-    "prettier": "3.3.3"
+    "eslint-plugin-n": "17.17.0",
+    "eslint-plugin-prettier": "5.2.6",
+    "husky": "9.1.7",
+    "nodemon": "3.1.9",
+    "prettier": "3.5.3"
   },
   "dependencies": {
-    "undici": "6.20.1",
+    "undici": "7.8.0",
     "xml2js": "0.6.2"
   },
   "overrides": {
