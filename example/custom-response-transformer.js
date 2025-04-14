@@ -15,5 +15,11 @@ const customRt = async (xmlString) => {
   return json;
 };
 client
-  .dayAheadPrices({ biddingZone: BiddingZonesByCountry.SE4 }, customRt)
+  .dayAheadPrices(
+    {
+      biddingZone: BiddingZonesByCountry.SE4,
+      startDate: new Date().toISOString(),
+    },
+    customRt,
+  )
   .then((res) => console.log(res));
