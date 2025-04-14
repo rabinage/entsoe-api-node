@@ -34,7 +34,7 @@
     "precommit": "npm run lint"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=14"
   },
   "nodemonConfig": {
     "execMap": {

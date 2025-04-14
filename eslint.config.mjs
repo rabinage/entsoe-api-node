@@ -17,14 +17,11 @@ export default [
         ecmaVersion: "latest",
       },
     },
-    settings: {
-      node: {
-        version: ">=16.0.0",
-      },
-    },
+    settings: { node: { version: ">=14.0.0" } },
     ignores: ["dist/**"],
     rules: {
       "prettier/prettier": "warn",
     },
   },
+  { files: ["test/**"], settings: { node: { version: ">=22.0.0" } } },
 ];

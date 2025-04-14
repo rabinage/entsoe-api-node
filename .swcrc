@@ -2,7 +2,7 @@
   "$schema": "https://swc.rs/schema.json",
   "env": {
     "targets": {
-      "node": "16"
+      "node": "14"
     }
   },
   "module": {
