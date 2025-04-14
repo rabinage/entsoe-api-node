@@ -1,17 +1,14 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
   pull_request:
-    branches: ["**"]
 
 jobs:
   code-check:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14, 22, 'node']
+        node-version: [14, 22, "node"]
 
     steps:
       - name: Checkout

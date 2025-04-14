@@ -13,15 +13,11 @@ export default [
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
-      parserOptions: {
-        ecmaVersion: "latest",
-      },
+      parserOptions: { ecmaVersion: "latest" },
     },
     settings: { node: { version: ">=14.0.0" } },
     ignores: ["dist/**"],
-    rules: {
-      "prettier/prettier": "warn",
-    },
+    rules: { "prettier/prettier": "warn" },
   },
   { files: ["test/**"], settings: { node: { version: ">=22.0.0" } } },
 ];
