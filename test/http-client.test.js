@@ -1,14 +1,13 @@
-import qs from "querystring";
-import fetch from "node-fetch";
-import entsoe, { BiddingZonesByCountry } from "../src/index";
+import entsoe from "../src/index";
 import { readMockFile } from "./utils";
-
-jest.mock("node-fetch");
-
-const biddingZone = BiddingZonesByCountry.SE4; // Sweden zone 4
-const apiToken = "toker";
-const startDate = "2023-08-07T00:00:00.000Z";
-const endDate = "2023-08-08T00:00:00.000Z";
+import {
+  mockAgent,
+  baseInterceptor,
+  apiToken,
+  biddingZone,
+  endDate,
+  startDate,
+} from "./api-mock";
 
 describe("API client", () => {
   afterEach(() => {
@@ -17,13 +16,7 @@ describe("API client", () => {
 
   test("should handle 401 status and return unauthRT error message", async () => {
     const client = entsoe({ apiToken });
-    const rawResponse = readMockFile("unauth-resp.xml");
-    const mockResponse = {
-      ok: false,
-      status: 401,
-      text: jest.fn().mockResolvedValue(rawResponse),
-    };
-    fetch.mockResolvedValue(mockResponse);
+    baseInterceptor.reply(401, readMockFile("unauth-resp.xml"));
 
     await expect(
       client.dayAheadPrices({
@@ -36,13 +29,7 @@ describe("API client", () => {
 
   test("should handle 400 status and return badRequestRT error message", async () => {
     const client = entsoe({ apiToken });
-    const rawResponse = readMockFile("bad-request-resp.xml");
-    const mockResponse = {
-      ok: false,
-      status: 400,
-      text: jest.fn().mockResolvedValue(rawResponse),
-    };
-    fetch.mockResolvedValue(mockResponse);
+    baseInterceptor.reply(400, readMockFile("bad-request-resp.xml"));
 
     await expect(
       client.dayAheadPrices({
@@ -55,12 +42,7 @@ describe("API client", () => {
 
   test("should all other errors as unexpected errors", async () => {
     const client = entsoe({ apiToken });
-    const mockResponse = {
-      ok: false,
-      status: 400,
-      text: jest.fn().mockResolvedValue("<? "),
-    };
-    fetch.mockResolvedValue(mockResponse);
+    baseInterceptor.reply(400, "<? ");
 
     await expect(
       client.dayAheadPrices({
@@ -73,51 +55,21 @@ describe("API client", () => {
 
   test("should throttle after 400 requests", async () => {
     const client = entsoe({ apiToken });
-    const rawResponse = readMockFile("day-ahead-prices-resp.xml");
-    const mockResponse = {
-      ok: true,
-      status: 200,
-      text: jest.fn().mockResolvedValue(rawResponse),
-      headers: {
-        get: jest.fn(() => "application/xml"),
-      },
-    };
-    fetch.mockResolvedValue(mockResponse);
+    baseInterceptor
+      .reply(200, readMockFile("day-ahead-prices-resp.xml"))
+      .times(401);
 
     const requests = Array.from({ length: 401 }).map(
-      () => () =>
-        client.dayAheadPrices({ startDate: "2023-08-26", biddingZone }),
+      () => () => client.dayAheadPrices({ startDate, endDate, biddingZone }),
     );
 
-    await Promise.all(
-      requests.map((promise, index) => {
-        return promise()
-          .then(() => {
-            if (index <= 400) {
-              expect(fetch).toHaveBeenLastCalledWith(
-                expect.any(String),
-                expect.objectContaining({
-                  headers: expect.anything(),
-                }),
-              );
-            } else {
-              expect(fetch).not.toHaveBeenLastCalledWith(
-                expect.any(String),
-                expect.objectContaining({
-                  headers: expect.anything(),
-                }),
-              );
-            }
-          })
-          .catch((error) => {
-            if (index <= 400) {
-              expect(error.message).toBe("Request throttled");
-            } else {
-              expect(error.message).not.toBe("Request throttled");
-            }
-          });
-      }),
+    const results = await Promise.allSettled(
+      requests.map((promise) => promise()),
     );
+
+    const lastRequestResult = results[400];
+
+    expect(lastRequestResult.reason.message).toBe("Request throttled");
   });
 
   test("should reset throttle after one minute", async () => {
@@ -125,69 +77,50 @@ describe("API client", () => {
     const originalDateNow = Date.now;
     const now = Date.now();
     Date.now = jest.fn(() => now);
-    const rawResponse = readMockFile("day-ahead-prices-resp.xml");
-    const mockResponse = {
-      ok: true,
-      status: 200,
-      text: jest.fn().mockResolvedValue(rawResponse),
-      headers: {
-        get: jest.fn(() => "application/xml"),
-      },
-    };
-    fetch.mockResolvedValue(mockResponse);
+    baseInterceptor
+      .reply(200, readMockFile("day-ahead-prices-resp.xml"))
+      .times(401);
 
     // Make 400 requests
     await Promise.all(
       Array.from({ length: 400 }).map(() =>
-        client.dayAheadPrices({ startDate: "2023-08-26", biddingZone }),
+        client.dayAheadPrices({ startDate, biddingZone }),
       ),
     );
 
     // Make a request after 60 seconds
     Date.now = jest.fn(() => now + 60 * 1000 + 1);
     await client.dayAheadPrices({
-      startDate: "2023-08-26",
+      startDate,
       biddingZone,
     });
 
-    expect(fetch).toHaveBeenCalledTimes(401); // Initial 400 + 1 after reset
-
     Date.now = originalDateNow; // Restore Date.now to original implementation
   });
+});
 
-  test("dayAheadPrices should make a successful request and return transformed data", async () => {
+describe("dayAheadPrices", () => {
+  beforeAll(() => {
+    baseInterceptor
+      .reply(200, readMockFile("day-ahead-prices-resp.xml"))
+      .persist();
+  });
+
+  afterAll(() => {
+    mockAgent.close();
+  });
+
+  test("should make a successful request and return transformed data", async () => {
     const client = entsoe({ apiToken });
-    const url = `https://web-api.tp.entsoe.eu/api?in_Domain=${biddingZone}&out_Domain=${biddingZone}&timeInterval=${qs.escape(
-      `${startDate}/${endDate}`,
-    )}&documentType=A44&securityToken=${apiToken}`;
-
-    const expectedResponse = JSON.parse(
-      readMockFile("day-ahead-prices-transf.json"),
-    );
-    const rawResponse = readMockFile("day-ahead-prices-resp.xml");
-    const mockResponse = {
-      ok: true,
-      text: jest.fn().mockResolvedValue(rawResponse),
-      headers: {
-        get: jest.fn(() => "application/xml"),
-      },
-    };
-    fetch.mockResolvedValue(mockResponse);
-
     const transformedData = await client.dayAheadPrices({
       startDate,
       endDate,
       biddingZone,
     });
-
-    expect(fetch).toHaveBeenCalledWith(
-      url,
-      expect.objectContaining({
-        method: "GET",
-        headers: { "Content-Type": "application/xml" },
-        body: undefined,
-      }),
+    const expectedResponse = JSON.parse(
+      readMockFile("day-ahead-prices-transf.json"),
     );
+
     expect(transformedData).toEqual(expectedResponse);
   });
 

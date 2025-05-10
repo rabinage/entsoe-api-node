@@ -29,7 +29,7 @@
     "precommit": "npm run lint"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=20"
   },
   "nodemonConfig": {
     "execMap": {
@@ -56,7 +56,7 @@
     "prettier": "3.5.3"
   },
   "dependencies": {
-    "node-fetch": "2.6.7",
+    "undici": "7.8.0",
     "xml2js": "0.6.2"
   },
   "overrides": {

@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import { fetch } from "undici";
 import { dayAheadPriceRT, badRequestRT, unauthRT } from "./transformers";
 import { BASE_URL, TESTNET_URL } from "./const";
 
@@ -123,7 +123,7 @@ export default (opts) => {
     };
 
   const req = request({
-    endpoint: opts.testnet ? TESTNET_URL : BASE_URL,
+    endpoint: `${opts.testnet ? TESTNET_URL : BASE_URL}/api`,
     apiToken: opts.apiToken,
     requestInterceptor: {
       request: () => {
