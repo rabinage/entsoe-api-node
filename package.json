@@ -24,8 +24,8 @@
     "build": "npx swc src --delete-dir-on-start --env-name=\"production\" --out-dir dist",
     "example:dev": "nodemon --watch example",
     "test": "node -r \"dotenv/config\" node_modules/jest/bin/jest.js",
-    "format": "npx prettier --write . && npx eslint --fix src test example",
-    "lint": "npx prettier --check . && npx eslint --max-warnings=0 src test example",
+    "format": "npx prettier --write . && npx eslint --fix --ignore-pattern=dist .",
+    "lint": "npx prettier --check . && npx eslint --max-warnings=0 --ignore-pattern=dist .",
     "precommit": "npm run lint"
   },
   "engines": {
