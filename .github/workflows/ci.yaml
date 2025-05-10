@@ -2,9 +2,11 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: 
+      - main
   pull_request:
-    branches: ["**"]
+    branches: 
+      - "**"
 
 jobs:
   code-check:
@@ -13,14 +15,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Read Node version
-        run: echo "::set-output name=NVMRC::$(cat .nvmrc)"
-        id: nvm
-
-      - name: Setup Node ${{ steps.nvm.outputs.NVMRC }}
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ steps.nvm.outputs.NVMRC }}
+          node-version-file: .nvmrc
           cache: "npm"
 
       - name: Install dependencies
