@@ -5,7 +5,7 @@
   "author": "Robin Hansson <holla@rabinage.dev> (https://github.com/rabinage)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rabinage/entsoe-api-node.git"
+    "url": "git+https://github.com/rabinage/entsoe-api-node.git"
   },
   "keywords": [
     "nodejs",
