@@ -17,7 +17,7 @@ const config = [
         ...globals.node,
       },
     },
-    ignores: ["dist/**"],
+    ignores: ["dist"],
     rules: {
       "prettier/prettier": "warn",
     },
