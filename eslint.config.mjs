@@ -1,24 +1,19 @@
-const configPrettier = require("eslint-config-prettier/flat");
-const eslint = require("@eslint/js");
-const pluginPrettier = require("eslint-plugin-prettier/recommended");
-const pluginJest = require("eslint-plugin-jest");
-const globals = require("globals");
+import configPrettier from "eslint-config-prettier/flat";
+import eslint from "@eslint/js";
+import globals from "globals";
+import pluginPrettier from "eslint-plugin-prettier/recommended";
 
 /** @type { import("eslint").Linter.Config[] } */
-module.exports = [
+const config = [
   eslint.configs.recommended,
   pluginPrettier,
   configPrettier,
   {
-    plugins: {
-      jest: pluginJest,
-    },
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
       parserOptions: { ecmaVersion: "latest" },
       globals: {
-        ...pluginJest.environments.globals.globals,
         ...globals.node,
       },
     },
@@ -28,3 +23,5 @@ module.exports = [
     },
   },
 ];
+
+export default config;

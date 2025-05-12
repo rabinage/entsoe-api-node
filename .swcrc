@@ -1,7 +1,22 @@
 {
+  "$schema": "https://swc.rs/schema.json",
   "jsc": {
     "parser": {
       "syntax": "ecmascript"
+    },
+    "experimental": {
+      "cacheRoot": "node_modules/.cache/swc",
+      "plugins": [
+        [
+          "@swc/plugin-transform-imports",
+          {
+            "^(.+)\\.mjs$": {
+              "handleDefaultImport": true,
+              "transform": "{{matches.[1]}}.js"
+            }
+          }
+        ]
+      ]
     }
   },
   "module": {
