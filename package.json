@@ -3,7 +3,6 @@
   "version": "1.1.0",
   "description": "Unofficial API wrapper for the ENTSO-E Transparency Platform API (https://transparency.entsoe.eu)",
   "author": "Robin Hansson <holla@rabinage.dev> (https://github.com/rabinage)",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rabinage/entsoe-api-node.git"
@@ -30,8 +29,8 @@
     "build": "npx swc src --delete-dir-on-start --strip-leading-paths --out-dir dist",
     "example": "node -r \"dotenv/config\" -r \"@swc/register\" --watch",
     "test": "node -r \"dotenv/config\" test/http-client.test.mjs",
-    "format": "npx prettier --write . && npx eslint --fix --ignore-pattern=dist .",
-    "lint": "npx prettier --check . && npx eslint --max-warnings=0 --ignore-pattern=dist .",
+    "format": "npx prettier --write . && npx eslint --fix .",
+    "lint": "npx prettier --check . && npx eslint --max-warnings=0 .",
     "precommit": "npm run lint"
   },
   "engines": {
