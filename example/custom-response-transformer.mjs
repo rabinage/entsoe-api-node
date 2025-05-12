@@ -1,5 +1,5 @@
 import { parseStringPromise } from "xml2js";
-import Entsoe, { BiddingZonesByCountry } from "../src/index";
+import Entsoe, { BiddingZonesByCountry } from "../src/index.mjs";
 
 /**
  * Example using a custom response transformer.

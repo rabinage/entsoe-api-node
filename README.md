@@ -56,7 +56,7 @@ const Enstoe = require("entsoe-api-node").default;
 
 The `/example` folder contains code examples on how to use the API methods. You can try out these examples by running the following command:
 
-    npm run example:dev -- example/example-file.js
+    npm run example -- example/example-file.mjs
 
 ### Public REST Endpoints
 

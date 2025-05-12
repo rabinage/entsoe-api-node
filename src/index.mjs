@@ -1,4 +1,4 @@
-import httpMethods from "./http-client";
+import httpMethods from "./http-client.mjs";
 
 export default (opts = {}) => ({
   ...httpMethods(opts),

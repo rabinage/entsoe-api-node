@@ -1,4 +1,4 @@
-import Entsoe, { BiddingZonesByCountry } from "../src/index";
+import Entsoe, { BiddingZonesByCountry } from "../src/index.mjs";
 
 /**
  * Print the current day and night price.
