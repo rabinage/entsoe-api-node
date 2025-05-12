@@ -8,6 +8,7 @@
       "cacheRoot": "node_modules/.cache/swc",
       "plugins": [
         [
+          // Replace .mjs imports with .js
           "@swc/plugin-transform-imports",
           {
             "^(.+)\\.mjs$": {
@@ -21,10 +22,5 @@
   },
   "module": {
     "type": "commonjs"
-  },
-  "env": {
-    "targets": {
-      "node": "14"
-    }
   }
 }
