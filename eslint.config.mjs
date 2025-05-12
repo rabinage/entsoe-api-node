@@ -2,9 +2,10 @@ import configPrettier from "eslint-config-prettier/flat";
 import eslint from "@eslint/js";
 import globals from "globals";
 import pluginPrettier from "eslint-plugin-prettier/recommended";
+import { defineConfig, globalIgnores } from "eslint/config";
 
-/** @type { import("eslint").Linter.Config[] } */
-const config = [
+export default defineConfig([
+  globalIgnores(["dist/"]),
   eslint.configs.recommended,
   pluginPrettier,
   configPrettier,
@@ -17,11 +18,8 @@ const config = [
         ...globals.node,
       },
     },
-    ignores: ["dist"],
     rules: {
       "prettier/prettier": "warn",
     },
   },
-];
-
-export default config;
+]);
