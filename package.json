@@ -21,6 +21,7 @@
   ],
   "exports": {
     ".": {
+      "types": "./index.d.ts",
       "require": "./dist/index.js"
     }
   },
