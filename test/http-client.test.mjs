@@ -1,6 +1,5 @@
 import { test, describe, before, after } from "node:test";
 import assert from "node:assert/strict";
-import entsoe from "../src/index.mjs";
 import { readMockFile } from "./utils.mjs";
 import {
   mockAgent,
@@ -10,6 +9,10 @@ import {
   endDate,
   startDate,
 } from "./api-mock.mjs";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const entsoe = require("../dist/index.js").default;
 
 describe("API client", () => {
   test("should handle 401 status and return unauthRT error message", async () => {

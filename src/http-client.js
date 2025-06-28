@@ -1,6 +1,6 @@
 import { fetch } from "undici";
-import { dayAheadPriceRT, badRequestRT, unauthRT } from "./transformers.mjs";
-import { BASE_URL, TESTNET_URL } from "./const.mjs";
+import { dayAheadPriceRT, badRequestRT, unauthRT } from "./transformers.js";
+import * as constants from "./const.js";
 
 const dayAheadPrices = (
   req,
@@ -123,7 +123,7 @@ export default (opts) => {
     };
 
   const req = request({
-    endpoint: `${opts.testnet ? TESTNET_URL : BASE_URL}/api`,
+    endpoint: `${opts.testnet ? constants.TESTNET_URL : constants.BASE_URL}/api`,
     apiToken: opts.apiToken,
     requestInterceptor: {
       request: () => {

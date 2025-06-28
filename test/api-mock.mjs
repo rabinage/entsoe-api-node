@@ -1,6 +1,9 @@
 import { MockAgent, setGlobalDispatcher } from "undici";
-import { BASE_URL } from "../src/const.mjs";
-import { BiddingZonesByCountry } from "../src/index.mjs";
+
+const BASE_URL = "https://web-api.tp.entsoe.eu";
+const BiddingZonesByCountry = {
+  SE4: "10Y1001A1001A47J",
+};
 
 export const biddingZone = BiddingZonesByCountry.SE4; // Sweden zone 4
 export const apiToken = "token";
