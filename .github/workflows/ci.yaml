@@ -27,8 +27,7 @@ jobs:
       - name: Code check
         run: npm run lint
 
-      - name: Run tests
-        run: npm run test --verbose
-
       - name: Run build
         run: npm run build
+      - name: Run tests
+        run: npm run test --verbose
