@@ -1,6 +1,6 @@
 {
   "name": "entsoe-api-node",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Unofficial API wrapper for the ENTSO-E Transparency Platform API (https://transparency.entsoe.eu)",
   "author": "Robin Hansson <holla@rabinage.dev> (https://github.com/rabinage)",
   "repository": {
@@ -21,6 +21,7 @@
   ],
   "exports": {
     ".": {
+      "types": "./index.d.ts",
       "require": "./dist/index.js"
     }
   },
