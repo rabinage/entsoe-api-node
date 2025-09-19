@@ -42,7 +42,7 @@
     "@swc/core": "1.13.5",
     "@swc/register": "0.1.10",
     "dotenv": "17.2.2",
-    "eslint": "9.35.0",
+    "eslint": "9.36.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-prettier": "5.5.4",
