@@ -1,4 +1,5 @@
 import { MockAgent, setGlobalDispatcher } from "undici";
+import { formatDate } from "../src/utils.js";
 
 const BASE_URL = "https://web-api.tp.entsoe.eu";
 const BiddingZonesByCountry = {
@@ -23,7 +24,8 @@ const baseInterceptor = apiMock.intercept({
   query: {
     in_Domain: biddingZone,
     out_Domain: biddingZone,
-    timeInterval: `${startDate}/${endDate}`,
+    periodEnd: formatDate(new Date(endDate)),
+    periodStart: formatDate(new Date(startDate)),
     documentType: "A44",
     securityToken: apiToken,
   },

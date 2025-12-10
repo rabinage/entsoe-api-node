@@ -1,6 +1,7 @@
 import { fetch } from "undici";
 import { dayAheadPriceRT, badRequestRT, unauthRT } from "./transformers.js";
 import * as constants from "./const.js";
+import { formatDate } from "./utils.js";
 
 const dayAheadPrices = (
   req,
@@ -23,14 +24,14 @@ const dayAheadPrices = (
       const ed = endDate
         ? new Date(new Date(endDate).setMinutes(0, 0, 0))
         : new Date(new Date(sd).setHours(sd.getHours() + 24));
-      const timeInterval = `${sd.toISOString()}/${ed.toISOString()}`;
 
       resolve(
         req({
           params: {
             in_Domain: biddingZone,
             out_Domain: biddingZone,
-            timeInterval,
+            periodEnd: ed ? formatDate(ed) : null,
+            periodStart: formatDate(sd),
             documentType: "A44",
           },
           transformResponse,
