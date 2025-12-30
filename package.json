@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@swc/cli": "0.7.9",
-    "@swc/core": "1.15.7",
+    "@swc/core": "1.15.8",
     "@swc/register": "0.1.10",
     "dotenv": "17.2.3",
     "eslint": "9.39.2",
