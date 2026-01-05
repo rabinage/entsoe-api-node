@@ -1,13 +1,12 @@
-import { test, describe, before, after } from "node:test";
+import { test, describe, beforeEach, afterEach } from "node:test";
 import assert from "node:assert/strict";
 import { readMockFile } from "./utils.mjs";
 import {
-  mockAgent,
-  baseInterceptor,
   apiToken,
   biddingZone,
   endDate,
   startDate,
+  createApiMock,
 } from "./api-mock.mjs";
 import { createRequire } from "node:module";
 
@@ -15,6 +14,17 @@ const require = createRequire(import.meta.url);
 const entsoe = require("../dist/index.js").default;
 
 describe("API client", () => {
+  let mockAgent;
+  let baseInterceptor;
+
+  beforeEach(() => {
+    ({ mockAgent, baseInterceptor } = createApiMock());
+  });
+
+  afterEach(() => {
+    mockAgent.close();
+  });
+
   test("should handle 401 status and return unauthRT error message", async () => {
     const client = entsoe({ apiToken });
     baseInterceptor.reply(401, readMockFile("unauth-resp.xml"));
@@ -115,51 +125,44 @@ describe("API client", () => {
 
     Date.now = originalDateNow; // Restore Date.now
   });
-});
 
-describe("dayAheadPrices", () => {
-  before(() => {
-    baseInterceptor
-      .reply(200, readMockFile("day-ahead-prices-resp.xml"))
-      .persist();
-  });
+  describe("dayAheadPrices", () => {
+    test("should make a successful request and return transformed data", async () => {
+      baseInterceptor.reply(200, readMockFile("day-ahead-prices-resp.xml"));
 
-  after(() => {
-    mockAgent.close();
-  });
-
-  test("should make a successful request and return transformed data", async () => {
-    const client = entsoe({ apiToken });
-    const result = await client.dayAheadPrices({
-      startDate,
-      endDate,
-      biddingZone,
-    });
-    const expectedResult = JSON.parse(
-      readMockFile("day-ahead-prices-transf.json"),
-    );
-    assert.deepStrictEqual(result, expectedResult);
-  });
-
-  test("should throw an error when 'startDate' is missing", async () => {
-    const client = entsoe({ apiToken });
-    await assert.rejects(
-      client.dayAheadPrices({
-        endDate,
-        biddingZone,
-      }),
-      new Error("'startDate' is required"),
-    );
-  });
-
-  test("should throw an error when 'biddingZone' is missing", async () => {
-    const client = entsoe({ apiToken });
-    await assert.rejects(
-      client.dayAheadPrices({
+      const client = entsoe({ apiToken });
+      const result = await client.dayAheadPrices({
         startDate,
         endDate,
-      }),
-      new Error("'biddingZone' is required"),
-    );
+        biddingZone,
+      });
+
+      const expectedResult = JSON.parse(
+        readMockFile("day-ahead-prices-transf.json"),
+      );
+      assert.deepStrictEqual(result, expectedResult);
+    });
+
+    test("should throw an error when 'startDate' is missing", async () => {
+      const client = entsoe({ apiToken });
+      await assert.rejects(
+        client.dayAheadPrices({
+          endDate,
+          biddingZone,
+        }),
+        new Error("'startDate' is required"),
+      );
+    });
+
+    test("should throw an error when 'biddingZone' is missing", async () => {
+      const client = entsoe({ apiToken });
+      await assert.rejects(
+        client.dayAheadPrices({
+          startDate,
+          endDate,
+        }),
+        new Error("'biddingZone' is required"),
+      );
+    });
   });
 });
