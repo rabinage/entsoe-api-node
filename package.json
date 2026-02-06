@@ -39,7 +39,7 @@
     "node": ">=14"
   },
   "devDependencies": {
-    "@swc/cli": "0.7.10",
+    "@swc/cli": "0.8.0",
     "@swc/core": "1.15.11",
     "@swc/register": "0.1.10",
     "dotenv": "17.2.4",
