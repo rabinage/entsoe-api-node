@@ -123,8 +123,7 @@ declare module "entsoe-api-node" {
         endDate?: string;
       },
       transformResponse?:
-        | DayAheadPriceResponseTransformer
-        | ResponseTransformer,
+        DayAheadPriceResponseTransformer | ResponseTransformer,
     ): Promise<DayAheadResult>;
   }
 }
