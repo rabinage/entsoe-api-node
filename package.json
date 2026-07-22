@@ -52,7 +52,7 @@
     "prettier": "3.9.6"
   },
   "dependencies": {
-    "undici": "7.28.0",
+    "undici": "8.8.0",
     "xml2js": "0.6.2"
   },
   "overrides": {
