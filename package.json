@@ -41,7 +41,7 @@
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@swc/cli": "0.8.1",
-    "@swc/core": "1.16.12",
+    "@swc/core": "1.16.13",
     "@swc/register": "0.1.10",
     "dotenv": "18.0.4",
     "eslint": "10.11.0",
