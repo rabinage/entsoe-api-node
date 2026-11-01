@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.7](https://github.com/rabinage/entsoe-api-node/compare/v1.3.6...v1.3.7) (2026-11-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency undici to v8.10.2 [security] ([#597](https://github.com/rabinage/entsoe-api-node/issues/597)) ([e1e787e](https://github.com/rabinage/entsoe-api-node/commit/e1e787ebebdd79f00bb0c3e1b6562f7f6b709005))
+* **deps:** update dependency undici to v8.12.2 [security] ([#613](https://github.com/rabinage/entsoe-api-node/issues/613)) ([9e0f771](https://github.com/rabinage/entsoe-api-node/commit/9e0f771142cf8c0286b2d545986f08278d17e4b4))
+* **deps:** update dependency undici to v8.12.3 ([#614](https://github.com/rabinage/entsoe-api-node/issues/614)) ([b5c4b0b](https://github.com/rabinage/entsoe-api-node/commit/b5c4b0b0f28af6966c0dff57c484379b7fe77e36))
+
 ## [1.3.6](https://github.com/rabinage/entsoe-api-node/compare/v1.3.5...v1.3.6) (2026-08-06)
 
 
