@@ -164,5 +164,23 @@ describe("API client", () => {
         new Error("'biddingZone' is required"),
       );
     });
+
+    test("should handle error response when no data is available", async () => {
+      baseInterceptor.reply(200, readMockFile("bad-request-resp.xml"));
+
+      const client = entsoe({ apiToken });
+      const result = await client.dayAheadPrices({
+        startDate,
+        endDate,
+        biddingZone,
+      });
+
+      const expectedResult = {
+        code: "999",
+        message: "No data available for the given parameters",
+      };
+
+      assert.deepStrictEqual(result, expectedResult);
+    });
   });
 });
