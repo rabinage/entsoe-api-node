@@ -43,7 +43,7 @@
     "@swc/cli": "0.8.2",
     "@swc/core": "1.16.22",
     "@swc/register": "0.1.10",
-    "dotenv": "18.0.9",
+    "dotenv": "18.0.10",
     "eslint": "10.14.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.7",
